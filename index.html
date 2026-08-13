@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EDF1EC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Week Plan">
+<title>Week Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF1EC; --panel:#FFF; --ink:#14201D; --slate:#5D6E67;
+  --jade:#16665A; --jade-deep:#0C3A33; --mint:#9FD8C4; --ember:#A96C26;
+  --line:#D4DDD6; --soft:#E6ECE6; --r:10px; --nav:72px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.5;
+  padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom));
+}
+.wrap{max-width:660px;margin:0 auto;padding:0 16px;}
+h1{font-family:"Zilla Slab",serif;font-weight:600;font-size:32px;line-height:1.08;letter-spacing:-.015em;margin:0 0 8px;}
+h2{font-family:"Zilla Slab",serif;font-weight:600;font-size:25px;line-height:1.14;margin:0 0 6px;}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin:0 0 10px;}
+.lead{color:var(--slate);font-size:16px;margin:0 0 20px;}
+
+.topbar{position:sticky;top:0;z-index:40;background:var(--paper);padding:14px 0 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;}
+.topbar h2{flex:1 1 auto;font-size:21px;margin:0;}
+.back{appearance:none;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);width:46px;height:46px;flex:0 0 auto;font-size:20px;color:var(--ink);cursor:pointer;line-height:1;}
+.back:active,.back:hover{background:var(--soft);}
+
+.lcd{display:flex;align-items:stretch;background:var(--jade-deep);border-radius:var(--r);overflow:hidden;}
+.lcd-l{display:flex;flex-direction:column;justify-content:center;padding:0 14px;border-right:1px solid rgba(159,216,196,.22);}
+.lcd-l span{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);opacity:.75;line-height:1.45;}
+.lcd-n{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:500;color:var(--mint);min-width:52px;text-align:center;align-self:center;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(159,216,196,.4);}
+.lcd button{appearance:none;border:none;background:transparent;color:var(--mint);font-family:"IBM Plex Mono",monospace;font-size:24px;width:52px;cursor:pointer;}
+.lcd button:active,.lcd button:hover{background:rgba(159,216,196,.16);}
+.lcd button:disabled{opacity:.25;}
+.servrow{display:flex;gap:10px;align-items:center;margin:16px 0 6px;}
+.servrow .hint{font-size:13.5px;color:var(--slate);line-height:1.35;}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 16px 4px;margin:6px -16px 0;scrollbar-width:none;-ms-overflow-style:none;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{flex:0 0 auto;appearance:none;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:11px 16px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.06em;color:var(--slate);white-space:nowrap;}
+.chip:active,.chip:hover{background:var(--soft);}
+.chip[aria-pressed="true"]{background:var(--jade-deep);border-color:var(--jade-deep);color:var(--mint);}
+
+.pick,.go{display:flex;align-items:center;gap:14px;width:100%;appearance:none;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:10px;min-height:78px;transition:border-color .12s,background .12s;}
+.pick:active,.go:active,.pick:hover,.go:hover{background:var(--soft);}
+.pick .box{flex:0 0 auto;width:26px;height:26px;border-radius:6px;border:2px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;line-height:1;}
+.pick[aria-pressed="true"]{border-color:var(--jade);}
+.pick[aria-pressed="true"] .box{background:var(--jade);border-color:var(--jade);color:#fff;}
+.pick .txt,.go .txt{flex:1 1 auto;min-width:0;}
+.short{display:block;font-family:"Zilla Slab",serif;font-size:20px;font-weight:600;line-height:1.15;}
+.long{display:block;font-size:13px;color:var(--slate);line-height:1.35;margin-top:2px;}
+.tagrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+.badge{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);background:var(--soft);border-radius:4px;padding:3px 7px;line-height:1.4;}
+.badge.sun{color:#fff;background:var(--ember);}
+.badge.quick{color:#fff;background:var(--jade);}
+.pr{flex:0 0 auto;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--jade);background:var(--soft);border-radius:6px;padding:5px 8px;}
+.go .meta{flex:0 0 auto;text-align:right;}
+.go .meta b{display:block;font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:500;color:var(--jade);}
+.go .meta span{display:block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--slate);margin-top:2px;}
+
+.section-h{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--slate);margin:26px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.section-h em{font-style:normal;color:var(--jade);letter-spacing:.1em;}
+
+.cta{position:sticky;bottom:calc(var(--nav) + 10px + env(safe-area-inset-bottom));z-index:30;appearance:none;width:100%;border:none;border-radius:var(--r);background:var(--jade);color:#fff;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:20px;margin:22px 0 6px;box-shadow:0 6px 22px rgba(12,58,51,.24);}
+.cta:active,.cta:hover{background:var(--jade-deep);}
+.cta:disabled{background:var(--slate);opacity:.5;box-shadow:none;}
+
+.statbar{display:flex;gap:8px;margin:16px 0 20px;}
+.statbar div{flex:1 1 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 10px;text-align:center;}
+.statbar .k{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin-bottom:3px;}
+.statbar .v{display:block;font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:500;}
+.statbar .v.hero{color:var(--jade);}
+.statbar .v.sm{font-size:13.5px;padding-top:3px;}
+
+.ing{list-style:none;margin:0 0 8px;padding:0;}
+.ing li{display:flex;align-items:baseline;gap:8px;padding:12px 2px;border-bottom:1px solid var(--soft);}
+.ing .nm{flex:1 1 auto;min-width:0;font-size:16.5px;}
+.ing .nm em{display:block;font-style:normal;font-size:13px;color:var(--slate);line-height:1.35;margin-top:1px;}
+.ing .qt{flex:0 0 auto;font-family:"IBM Plex Mono",monospace;font-size:14.5px;font-weight:500;color:var(--jade);white-space:nowrap;}
+.ing li.pantry .qt{color:var(--slate);}
+
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;}
+.steps li{counter-increment:s;position:relative;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 54px;margin-bottom:10px;font-size:16.5px;line-height:1.5;}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:14px;top:17px;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--jade);}
+.steps li.done{opacity:.4;}
+.steps li.done .body{text-decoration:line-through;text-decoration-thickness:1px;}
+.steps .why{display:block;margin-top:8px;font-size:14px;color:var(--ember);line-height:1.45;}
+.steps b{font-weight:600;}
+
+.tl{list-style:none;margin:0;padding:0;}
+.tl li{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:10px;}
+.tl h3{font-family:"Zilla Slab",serif;font-size:20px;font-weight:600;margin:0 0 4px;}
+.tl .tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--jade);margin:0 0 8px;}
+.tl p{margin:0 0 8px;font-size:16px;}
+.tl p:last-child{margin-bottom:0;}
+.tl .why{color:var(--ember);font-size:14px;line-height:1.45;}
+
+/* ---------- export ---------- */
+.seg{display:flex;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:16px 0 10px;background:var(--panel);}
+.seg button{flex:1 1 0;appearance:none;border:none;background:transparent;cursor:pointer;padding:13px 8px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);}
+.seg button+button{border-left:1px solid var(--line);}
+.seg button[aria-pressed="true"]{background:var(--jade-deep);color:var(--mint);}
+.actions{display:flex;flex-direction:column;gap:8px;margin:0 0 6px;}
+@media(min-width:560px){.actions{flex-direction:row;flex-wrap:wrap;}.actions .act{flex:1 1 220px;}}
+.act{appearance:none;cursor:pointer;width:100%;display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-height:62px;text-align:left;color:var(--ink);font-size:16.5px;font-family:inherit;}
+.act:active,.act:hover{background:var(--soft);}
+.act.primary{background:var(--jade-deep);border-color:var(--jade-deep);color:#fff;}
+.act.primary:hover{background:#0a302a;}
+.act.primary .sub{color:var(--mint);opacity:.85;}
+.act .ic{flex:0 0 auto;font-size:19px;width:24px;text-align:center;}
+.act .lab{flex:1 1 auto;}
+.act .sub{display:block;font-size:13px;color:var(--slate);margin-top:1px;line-height:1.35;}
+details{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin:10px 0 4px;}
+summary{list-style:none;cursor:pointer;padding:16px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--jade);}
+summary::-webkit-details-marker{display:none;}
+details[open] summary{border-bottom:1px solid var(--soft);}
+.setup{padding:16px;margin:0;}
+.setup h4{font-family:"Zilla Slab",serif;font-size:18px;font-weight:600;margin:20px 0 8px;}
+.setup h4:first-child{margin-top:0;}
+.setup ol{margin:0;padding-left:22px;}
+.setup li{margin-bottom:11px;font-size:15.5px;line-height:1.5;}
+.setup li:last-child{margin-bottom:0;}
+.setup p{font-size:15px;line-height:1.5;color:var(--slate);margin:12px 0 0;}
+.setup code{font-family:"IBM Plex Mono",monospace;font-size:13.5px;background:var(--soft);border-radius:4px;padding:2px 6px;}
+
+.shopgrp{margin-bottom:8px;}
+.shoplist{list-style:none;margin:0;padding:0;}
+.shoplist li{display:flex;align-items:baseline;gap:10px;padding:13px 2px;border-bottom:1px solid var(--soft);cursor:pointer;}
+.shoplist li.got{opacity:.38;}
+.shoplist li.got .nm{text-decoration:line-through;}
+.shoplist .nm{flex:1 1 auto;font-size:16.5px;}
+.shoplist .qt{flex:0 0 auto;font-family:"IBM Plex Mono",monospace;font-size:14.5px;color:var(--jade);white-space:nowrap;}
+
+.note{border-left:3px solid var(--ember);padding:2px 0 2px 16px;margin:20px 0;font-size:15.5px;line-height:1.5;}
+.note strong{font-weight:600;}
+.empty{background:var(--panel);border:1px dashed var(--line);border-radius:var(--r);padding:34px 20px;text-align:center;color:var(--slate);font-size:16px;margin-top:20px;}
+.storagenote{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;color:var(--slate);text-align:center;margin:26px 0 0;opacity:.75;}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 24px + env(safe-area-inset-bottom));z-index:80;background:var(--ink);color:#fff;border-radius:999px;padding:13px 22px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.06em;opacity:0;pointer-events:none;transition:opacity .2s;max-width:88%;text-align:center;}
+.toast.on{opacity:1;}
+
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--panel);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom);}
+.nav button{flex:1 1 0;appearance:none;background:transparent;border:none;cursor:pointer;padding:12px 4px 14px;color:var(--slate);font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;}
+.nav button .ic{display:block;font-size:19px;line-height:1.3;margin-bottom:2px;}
+.nav button[aria-current="true"]{color:var(--jade);}
+.nav button:active,.nav button:hover{background:var(--soft);}
+
+.view{display:none;padding-top:8px;}
+.view.on{display:block;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <section class="view on" id="v-select">
+    <div style="padding:26px 0 0">
+      <p class="eyebrow">Vegetarian · Low heat · Zojirushi NS-LHC05</p>
+      <h1>Build your week</h1>
+      <p class="lead">Tap the meals you want. Your shopping list and Sunday prep are generated from whatever you pick.</p>
+    </div>
+    <div class="servrow">
+      <div class="lcd">
+        <div class="lcd-l"><span>Servings</span><span>per meal</span></div>
+        <button id="minus" aria-label="Fewer servings">&minus;</button>
+        <span class="lcd-n" id="servnum" aria-live="polite">2</span>
+        <button id="plus" aria-label="More servings">+</button>
+      </div>
+      <p class="hint">Bump to 4 if each meal should cover next-day lunch.</p>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="sel-lunch"></div>
+    <div id="sel-dinner"></div>
+    <div id="sel-snack"></div>
+    <button class="cta" id="savebtn">Save this week</button>
+    <p class="storagenote" id="storagenote"></p>
+  </section>
+
+  <section class="view" id="v-week">
+    <div style="padding:26px 0 4px">
+      <p class="eyebrow" id="weekcount">Your week</p>
+      <h1>This week</h1>
+      <p class="lead">Tap any meal to cook it.</p>
+    </div>
+    <div id="week-body"></div>
+  </section>
+
+  <section class="view" id="v-recipe">
+    <div class="topbar">
+      <button class="back" id="rback" aria-label="Back to week">&larr;</button>
+      <h2 id="rtitle"></h2>
+    </div>
+    <div id="recipe-body"></div>
+  </section>
+
+  <section class="view" id="v-shop">
+    <div style="padding:26px 0 4px">
+      <p class="eyebrow">Generated from your picks</p>
+      <h1>Shopping</h1>
+      <p class="lead">Tap an item to cross it off. Crossed items are left out when you send the list, and they stay crossed until you reset.</p>
+    </div>
+    <div id="shop-actions"></div>
+    <div id="shop-body"></div>
+  </section>
+
+  <section class="view" id="v-prep">
+    <div style="padding:26px 0 4px">
+      <p class="eyebrow">Generated from your picks</p>
+      <h1>Sunday prep</h1>
+      <p class="lead" id="preplead"></p>
+    </div>
+    <div id="prep-body"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<nav class="nav">
+  <button data-go="week" aria-current="false"><span class="ic">&#9635;</span>Week</button>
+  <button data-go="shop" aria-current="false"><span class="ic">&#9776;</span>Shop</button>
+  <button data-go="prep" aria-current="false"><span class="ic">&#9200;</span>Prep</button>
+  <button data-go="select" aria-current="true"><span class="ic">&#9998;</span>Edit</button>
+</nav>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   HOW TO ADD A RECIPE
+   ------------------------------------------------------------
+   Copy any object in RECIPES and change the fields. Nothing
+   else in this file needs editing. The week list, filter chips,
+   shopping list and Sunday prep all rebuild themselves.
+
+   id      unique short string, no spaces
+   type    "lunch" or "dinner"
+   short   TWO WORDS MAX. This is the scroll label.
+   name    full dish name
+   tags    cuisine labels, e.g. ["Indian"]. A new tag creates a
+           new filter chip automatically.
+   protein grams per serving
+   kcal    calories per serving
+   time    free text, e.g. "30 min"
+   prep    {brownRice: cups} or {quinoa: cups} for TWO servings.
+           OMIT and the recipe is tagged "Quick prep" automatically.
+           Include and it becomes "Sunday prep".
+   ing[]   {k, n, q, u, e, g, p}
+             k = merge key for the shopping list. Two recipes
+                 using k:"chickpeas" get added together.
+             n = display name
+             q = amount for TWO servings (scales automatically)
+             u = unit ("cups","tbsp","oz","cloves", "" for count)
+             e = optional clarifying note
+             g = aisle: produce | protein | dry | dairy | pantry
+             p = true for pantry staples (no quantity shown)
+   steps[] {t: instruction (HTML ok), w: optional why-note}
+   ============================================================ */
+
+var RECIPES=[
+{
+ id:"beansalad", type:"lunch", short:"Bean Salad", tags:["Mediterranean"],
+ name:"Lemon-Herb White Bean and Feta Salad",
+ protein:37, kcal:560, time:"15 min",
+ prep:{quinoa:1.5},
+ ing:[
+  {k:"quinoa",n:"Cooked quinoa",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"cannellini",n:"Cannellini beans",q:3,u:"cups",e:"Drained and rinsed",g:"dry"},
+  {k:"cherrytom",n:"Cherry tomatoes",q:1.5,u:"cups",e:"Halved",g:"produce"},
+  {k:"cucumber",n:"English cucumber",q:1,u:"cup",e:"Diced",g:"produce"},
+  {k:"redonion",n:"Red onion",q:0.25,u:"cup",e:"Sliced paper thin",g:"produce"},
+  {k:"olives",n:"Kalamata olives",q:0.25,u:"cup",e:"Halved",g:"dry"},
+  {k:"feta",n:"Feta",q:3,u:"oz",e:"Crumbled",g:"dairy"},
+  {k:"yogurt",n:"Plain Greek yogurt",q:0.5,u:"cup",g:"dairy"},
+  {k:"parsley",n:"Fresh parsley",q:0.25,u:"cup",e:"Chopped",g:"produce"},
+  {k:"dill",n:"Fresh dill",q:3,u:"tbsp",e:"Chopped",g:"produce"},
+  {k:"lemon",n:"Lemon",q:1,u:"",e:"For 3 tbsp juice",g:"produce"},
+  {k:"oliveoil",n:"Olive oil",q:2,u:"tbsp",g:"pantry",p:true},
+  {k:"rwvinegar",n:"Red wine vinegar",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"oregano",n:"Dried oregano",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Whisk the lemon juice, olive oil, vinegar, oregano, salt and pepper together in a <b>large</b> bowl, big enough to hold everything."},
+  {t:"Add the drained beans and toss. Leave them ten minutes before adding anything else.",w:"Beans are bland alone and only taste seasoned if the dressing has time to soak in. This ten minutes is the whole dish."},
+  {t:"While they sit, cut the cucumber, tomatoes and onion. Add them with the olives and herbs, and toss again."},
+  {t:"Fold in the feta with a light hand so it stays in crumbles rather than turning to paste."},
+  {t:"Spoon over the quinoa, top with yogurt, finish with more black pepper."}
+ ]
+},
+{
+ id:"chickpeacurry", type:"lunch", short:"Chickpea Curry", tags:["Indian"],
+ name:"Chickpea Curry with Spinach",
+ protein:37, kcal:590, time:"30 min",
+ prep:{brownRice:1.5},
+ ing:[
+  {k:"chickpeas",n:"Chickpeas",q:3,u:"cups",e:"Drained",g:"dry"},
+  {k:"brownrice",n:"Cooked brown rice",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"crushedtom",n:"Crushed tomatoes",q:1,u:"cup",g:"dry"},
+  {k:"spinach",n:"Baby spinach",q:5,u:"oz",g:"produce"},
+  {k:"onion",n:"Yellow onion",q:1,u:"",e:"Diced",g:"produce"},
+  {k:"garlic",n:"Garlic",q:3,u:"cloves",e:"Minced",g:"produce"},
+  {k:"ginger",n:"Fresh ginger",q:1,u:"tbsp",e:"Grated",g:"produce"},
+  {k:"yogurt",n:"Plain Greek yogurt",q:1,u:"cup",g:"dairy"},
+  {k:"lemon",n:"Lemon",q:0.5,u:"",g:"produce"},
+  {k:"cilantro",n:"Fresh cilantro",q:0.25,u:"bunch",g:"produce"},
+  {k:"oliveoil",n:"Olive oil",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"cumin",n:"Ground cumin",q:2,u:"tsp",g:"pantry",p:true},
+  {k:"coriander",n:"Ground coriander",q:2,u:"tsp",g:"pantry",p:true},
+  {k:"turmeric",n:"Turmeric",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"garam",n:"Garam masala",q:1,u:"tsp",e:"Warm, not hot",g:"pantry",p:true},
+  {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Warm the oil in a wide pan over medium. Cook the onion six to eight minutes until soft and just catching gold at the edges."},
+  {t:"Add garlic and ginger for a minute, then all four ground spices. Stir them in the oil thirty seconds until the smell blooms.",w:"Frying spices in fat, rather than dropping them into liquid, is the biggest single difference between a curry that tastes cooked and one that tastes dusty."},
+  {t:"Pour in the crushed tomatoes and salt. Simmer five minutes until it darkens slightly."},
+  {t:"Add the chickpeas and half a cup of water. Simmer ten minutes, pressing a few chickpeas against the side of the pan.",w:"Those crushed chickpeas release starch and thicken the sauce, so you never need cream."},
+  {t:"Add the spinach a handful at a time, letting each wilt before the next. Finish with a squeeze of lemon."},
+  {t:"Serve over rice with a generous half cup of yogurt each and torn cilantro."}
+ ]
+},
+{
+ id:"tempehbowl", type:"lunch", short:"Tempeh Bowl", tags:["Vietnamese"],
+ name:"Seared Tempeh Rice Bowl with Quick Pickles",
+ protein:37, kcal:600, time:"30 min",
+ prep:{brownRice:1.5},
+ ing:[
+  {k:"tempeh",n:"Tempeh",q:8,u:"oz",e:"Sliced a quarter inch thick",g:"protein"},
+  {k:"brownrice",n:"Cooked brown rice",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"edamame",n:"Shelled edamame",q:1,u:"cup",e:"Frozen, thawed",g:"protein"},
+  {k:"carrot",n:"Carrot",q:1,u:"large",e:"Cut in matchsticks",g:"produce"},
+  {k:"daikon",n:"Daikon or radish",q:1,u:"cup",e:"Matchsticks",g:"produce"},
+  {k:"cucumber",n:"Cucumber",q:1,u:"cup",e:"Peeled into ribbons",g:"produce"},
+  {k:"lime",n:"Lime",q:1,u:"",e:"Juiced",g:"produce"},
+  {k:"garlic",n:"Garlic",q:2,u:"cloves",e:"Minced",g:"produce"},
+  {k:"herbs",n:"Cilantro and mint",q:0.5,u:"cup",e:"Leaves, loosely packed",g:"produce"},
+  {k:"peanuts",n:"Roasted peanuts",q:2,u:"tbsp",e:"Chopped",g:"dry"},
+  {k:"ricevin",n:"Rice vinegar",q:0.33,u:"cup",g:"pantry",p:true},
+  {k:"sugar",n:"Sugar",q:2,u:"tbsp",g:"pantry",p:true},
+  {k:"soy",n:"Soy sauce",q:3,u:"tbsp",g:"pantry",p:true},
+  {k:"maple",n:"Maple syrup",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"neutraloil",n:"Neutral oil",q:1,u:"tbsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Start the pickles first. Stir the vinegar, sugar and half a teaspoon of salt until dissolved, then add the carrot and daikon. Leave twenty minutes, stirring once."},
+  {t:"Whisk the soy sauce, lime juice, maple syrup and garlic. Pour half over the tempeh and leave ten minutes. Keep the rest as your finishing sauce."},
+  {t:"Heat the oil in a skillet over medium-high and sear the tempeh three minutes a side until deeply browned.",w:"Tempeh tastes chalky and faintly bitter when pale. Let it go further than feels comfortable."},
+  {t:"Warm the rice and edamame together, about ninety seconds in the microwave."},
+  {t:"Build the bowls: rice, tempeh, drained pickles, cucumber ribbons, a generous pile of herbs, peanuts. Spoon the reserved sauce over everything."}
+ ]
+},
+{
+ id:"misosoba", type:"lunch", short:"Miso Soba", tags:["Japanese"],
+ name:"Miso Soba Bowl with Tofu and Soft Egg",
+ protein:39, kcal:540, time:"25 min",
+ ing:[
+  {k:"tofu",n:"Firm tofu",q:14,u:"oz",e:"Cubed",g:"protein"},
+  {k:"soba",n:"Soba noodles",q:4,u:"oz",e:"Dry",g:"dry"},
+  {k:"eggs",n:"Eggs",q:2,u:"",g:"protein"},
+  {k:"broth",n:"Vegetable broth",q:4,u:"cups",g:"dry"},
+  {k:"shiitake",n:"Shiitake mushrooms",q:4,u:"oz",e:"Sliced",g:"produce"},
+  {k:"bokchoy",n:"Baby bok choy",q:2,u:"heads",e:"Halved lengthwise",g:"produce"},
+  {k:"edamame",n:"Shelled edamame",q:1,u:"cup",g:"protein"},
+  {k:"ginger",n:"Fresh ginger",q:1,u:"tbsp",e:"Grated",g:"produce"},
+  {k:"garlic",n:"Garlic",q:2,u:"cloves",e:"Smashed",g:"produce"},
+  {k:"scallions",n:"Scallions",q:3,u:"",e:"Sliced",g:"produce"},
+  {k:"miso",n:"White miso",q:3,u:"tbsp",g:"pantry",p:true},
+  {k:"soy",n:"Soy sauce",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"sesameoil",n:"Toasted sesame oil",q:1,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Soft-boil the eggs: seven minutes in boiling water, then straight into ice water. Peel and halve."},
+  {t:"Cook the soba to package time, usually four minutes, then drain and rinse under cold water.",w:"Soba sheds a lot of starch. Rinsing keeps the broth clear instead of gluey."},
+  {t:"Simmer the broth with the ginger, garlic and mushrooms five minutes. Add the bok choy and edamame for two minutes more."},
+  {t:"<b>Turn the heat off.</b> Whisk the miso with a ladle of hot broth in a small bowl until completely smooth, then stir that back into the pot.",w:"Boiling miso flattens its flavour and turns it grainy. Loosening it first and adding it off the heat is the entire technique."},
+  {t:"Slip in the tofu cubes and soy sauce and let them warm through a minute."},
+  {t:"Divide the soba between bowls, ladle the broth over, top with egg halves, scallions and a few drops of sesame oil."}
+ ]
+},
+{
+ id:"beanscramble", type:"lunch", short:"Bean Scramble", tags:["Mexican"],
+ name:"Black Bean and Corn Scramble Bowl",
+ protein:43, kcal:590, time:"20 min",
+ ing:[
+  {k:"eggs",n:"Eggs",q:4,u:"",g:"protein"},
+  {k:"blackbeans",n:"Black beans",q:2,u:"cups",e:"Drained",g:"dry"},
+  {k:"corn",n:"Frozen corn",q:1,u:"cup",g:"dry"},
+  {k:"cheddar",n:"Sharp cheddar",q:2,u:"oz",e:"Shredded",g:"dairy"},
+  {k:"tortillas",n:"Corn tortillas",q:4,u:"",g:"dry"},
+  {k:"bellpepper",n:"Red bell pepper",q:1,u:"",e:"Diced",g:"produce"},
+  {k:"onion",n:"Yellow onion",q:0.5,u:"",e:"Diced",g:"produce"},
+  {k:"avocado",n:"Avocado",q:0.5,u:"",g:"produce"},
+  {k:"yogurt",n:"Plain Greek yogurt",q:0.5,u:"cup",g:"dairy"},
+  {k:"lime",n:"Lime",q:1,u:"",g:"produce"},
+  {k:"cilantro",n:"Fresh cilantro",q:0.25,u:"bunch",g:"produce"},
+  {k:"oliveoil",n:"Olive oil",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"paprika",n:"Smoked paprika",q:1,u:"tsp",e:"Sweet, not hot",g:"pantry",p:true},
+  {k:"cumin",n:"Ground cumin",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"salt",n:"Salt",q:0.5,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Heat the oil over medium and cook the onion and bell pepper five minutes until softened."},
+  {t:"Add the corn, cumin, smoked paprika and salt. Cook three minutes and let the corn take on a little colour.",w:"Smoked paprika is doing the work chillies would normally do here. Depth and smoke, no heat at all."},
+  {t:"Stir in the black beans and warm them through, about two minutes."},
+  {t:"Push everything to one side. Beat the eggs, pour them into the cleared side, scramble gently, then fold the two together."},
+  {t:"Off the heat, scatter the cheddar over the top and cover the pan a minute to melt it."},
+  {t:"Warm the tortillas straight over a gas burner or in a dry pan. Serve with avocado, yogurt, cilantro and lime."}
+ ]
+},
+{
+ id:"glazedtofu", type:"dinner", short:"Glazed Tofu", tags:["Japanese"],
+ name:"Soy-Ginger Glazed Tofu with Edamame Rice",
+ protein:38, kcal:610, time:"30 min",
+ prep:{brownRice:2},
+ ing:[
+  {k:"tofu",n:"Extra-firm tofu",q:16,u:"oz",e:"One block, pressed",g:"protein"},
+  {k:"brownrice",n:"Cooked brown rice",q:2,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"edamame",n:"Shelled edamame",q:1,u:"cup",g:"protein"},
+  {k:"broccoli",n:"Broccoli florets",q:3,u:"cups",g:"produce"},
+  {k:"ginger",n:"Fresh ginger",q:1,u:"tbsp",e:"Grated",g:"produce"},
+  {k:"garlic",n:"Garlic",q:2,u:"cloves",e:"Minced",g:"produce"},
+  {k:"scallions",n:"Scallions",q:2,u:"",e:"Sliced",g:"produce"},
+  {k:"cornstarch",n:"Cornstarch",q:2,u:"tbsp",g:"pantry",p:true},
+  {k:"soy",n:"Soy sauce",q:3,u:"tbsp",g:"pantry",p:true},
+  {k:"mirin",n:"Mirin",q:2,u:"tbsp",e:"Or rice vinegar plus a teaspoon of sugar",g:"pantry",p:true},
+  {k:"maple",n:"Maple syrup",q:1.5,u:"tbsp",g:"pantry",p:true},
+  {k:"neutraloil",n:"Neutral oil",q:2,u:"tbsp",g:"pantry",p:true},
+  {k:"sesameoil",n:"Toasted sesame oil",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"sesameseeds",n:"Sesame seeds",q:1,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Press the tofu fifteen minutes: wrap the block in a clean towel, set a heavy pan on top. Then cut into three-quarter inch cubes."},
+  {t:"Toss the cubes with cornstarch until every side is dusted and no wet patches remain.",w:"Cornstarch is the difference between tofu that browns and tofu that steams. Do not skip it."},
+  {t:"Whisk the soy sauce, mirin, maple syrup, ginger, garlic and sesame oil and set the bowl by the stove."},
+  {t:"Heat the neutral oil in your largest skillet over medium-high. Lay the tofu in a single layer and <b>leave it alone three full minutes</b> before turning. Brown all sides, about ten minutes, then move to a plate.",w:"Poking at tofu is the most common way people end up with a pan of crumbs."},
+  {t:"Add the broccoli and three tablespoons of water to the same pan, cover, steam four minutes until bright green and just tender."},
+  {t:"Return the tofu, pour in the sauce, toss a minute or two until it thickens and clings."},
+  {t:"Stir the edamame through the warm rice. Serve the tofu over the top with scallions and sesame seeds."}
+ ]
+},
+{
+ id:"eggplantbake", type:"dinner", short:"Eggplant Bake", tags:["Italian"],
+ name:"Baked Eggplant with Ricotta and White Beans",
+ protein:45, kcal:680, time:"1 hr",
+ ing:[
+  {k:"eggplant",n:"Eggplant",q:1,u:"large",e:"About 1 lb, sliced half an inch",g:"produce"},
+  {k:"zucchini",n:"Zucchini",q:1,u:"medium",e:"Sliced",g:"produce"},
+  {k:"ricotta",n:"Part-skim ricotta",q:0.75,u:"cup",g:"dairy"},
+  {k:"cannellini",n:"Cannellini beans",q:1.5,u:"cups",e:"Drained",g:"dry"},
+  {k:"marinara",n:"Marinara sauce",q:2,u:"cups",g:"dry"},
+  {k:"penne",n:"Whole wheat penne",q:4,u:"oz",e:"Dry weight",g:"dry"},
+  {k:"mozzarella",n:"Part-skim mozzarella",q:3,u:"oz",e:"Shredded",g:"dairy"},
+  {k:"parmesan",n:"Parmesan",q:1,u:"oz",e:"Grated",g:"dairy"},
+  {k:"eggs",n:"Egg",q:1,u:"",g:"protein"},
+  {k:"garlic",n:"Garlic",q:2,u:"cloves",e:"Minced",g:"produce"},
+  {k:"basil",n:"Fresh basil",q:0.25,u:"cup",g:"produce"},
+  {k:"oliveoil",n:"Olive oil",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Heat the oven to 400°F. Brush the eggplant and zucchini with oil, salt lightly, roast on a sheet pan twenty minutes, flipping once.",w:"Salting and pre-roasting drives off water. Skip it and the finished bake sits in a puddle."},
+  {t:"Boil the pasta two minutes short of package time. It finishes in the oven."},
+  {t:"Stir the ricotta with the egg, garlic, half the parmesan, salt and pepper until smooth."},
+  {t:"Build in a baking dish: half a cup of marinara on the bottom, then pasta, beans, roasted vegetables, dollops of ricotta, the rest of the marinara, and the mozzarella and remaining parmesan on top."},
+  {t:"Bake twenty-five minutes until it bubbles at the edges and browns in patches."},
+  {t:"Rest it ten minutes before cutting.",w:"Cut it hot and it slumps into soup on the plate. Hardest step to obey, most worth obeying."},
+  {t:"Tear basil over the top just before serving."}
+ ]
+},
+{
+ id:"cauliflowerroast", type:"dinner", short:"Cauliflower Roast", tags:["Mediterranean"],
+ name:"Lemon-Oregano Chickpeas and Cauliflower",
+ protein:40, kcal:640, time:"40 min",
+ ing:[
+  {k:"chickpeas",n:"Chickpeas",q:3,u:"cups",e:"Drained and patted very dry",g:"dry"},
+  {k:"cauliflower",n:"Cauliflower",q:1,u:"small head",e:"About 5 cups florets",g:"produce"},
+  {k:"redonion",n:"Red onion",q:1,u:"",e:"Cut in wedges",g:"produce"},
+  {k:"couscous",n:"Whole wheat couscous",q:0.75,u:"cup",e:"Dry",g:"dry"},
+  {k:"yogurt",n:"Plain Greek yogurt",q:0.75,u:"cup",g:"dairy"},
+  {k:"feta",n:"Feta",q:2,u:"oz",e:"Crumbled",g:"dairy"},
+  {k:"lemon",n:"Lemon",q:1,u:"",e:"Zest and juice, kept separate",g:"produce"},
+  {k:"garlic",n:"Garlic",q:1,u:"clove",e:"Grated",g:"produce"},
+  {k:"mint",n:"Fresh mint",q:3,u:"tbsp",e:"Chopped",g:"produce"},
+  {k:"oliveoil",n:"Olive oil",q:3,u:"tbsp",g:"pantry",p:true},
+  {k:"oregano",n:"Dried oregano",q:2,u:"tsp",g:"pantry",p:true},
+  {k:"cumin",n:"Ground cumin",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"salt",n:"Salt",q:0.75,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Heat the oven to 425°F <b>with the empty sheet pan inside</b>.",w:"Food hitting a hot pan starts browning immediately. Food on a cold pan releases water and steams. This one habit improves every sheet-pan meal you will ever make."},
+  {t:"Toss the cauliflower, onion and chickpeas with two tablespoons of oil, the oregano, cumin, lemon zest, salt and pepper."},
+  {t:"Spread on the hot pan in a single layer with room around everything. Roast twenty-five to thirty minutes, stirring once, until the cauliflower browns in places and the chickpeas crisp."},
+  {t:"Meanwhile pour three-quarters of a cup of boiling water over the couscous with a pinch of salt and a teaspoon of oil. Cover five minutes, then fluff with a fork."},
+  {t:"Stir the yogurt with the grated garlic, mint, lemon juice and a pinch of salt."},
+  {t:"Pile the roast over the couscous, spoon the yogurt sauce over, crumble the feta on last."}
+ ]
+},
+{
+ id:"coconutcurry", type:"dinner", short:"Coconut Curry", tags:["Thai"],
+ name:"Coconut Curry Tofu with Green Beans",
+ protein:38, kcal:620, time:"35 min",
+ prep:{brownRice:1.5},
+ ing:[
+  {k:"tofu",n:"Extra-firm tofu",q:16,u:"oz",e:"Cubed",g:"protein"},
+  {k:"chickpeas",n:"Chickpeas",q:1.5,u:"cups",e:"Drained",g:"dry"},
+  {k:"coconutmilk",n:"Light coconut milk",q:1,u:"can",e:"13.5 oz",g:"dry"},
+  {k:"brownrice",n:"Cooked brown rice",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"greenbeans",n:"Green beans",q:3,u:"cups",e:"Trimmed",g:"produce"},
+  {k:"bellpepper",n:"Red bell pepper",q:1,u:"",e:"Sliced",g:"produce"},
+  {k:"onion",n:"Yellow onion",q:1,u:"",e:"Sliced",g:"produce"},
+  {k:"garlic",n:"Garlic",q:3,u:"cloves",e:"Minced",g:"produce"},
+  {k:"ginger",n:"Fresh ginger",q:1,u:"tbsp",e:"Grated",g:"produce"},
+  {k:"lime",n:"Lime",q:1,u:"",g:"produce"},
+  {k:"basil",n:"Thai basil or cilantro",q:0.25,u:"cup",g:"produce"},
+  {k:"currypowder",n:"Mild yellow curry powder",q:2,u:"tbsp",e:"Powder, not hot paste",g:"pantry",p:true},
+  {k:"soy",n:"Soy sauce",q:1,u:"tbsp",g:"pantry",p:true},
+  {k:"brownsugar",n:"Brown sugar",q:1,u:"tsp",g:"pantry",p:true},
+  {k:"neutraloil",n:"Neutral oil",q:1,u:"tbsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Heat the oil over medium-high and brown the tofu cubes about eight minutes, turning to get colour on at least two sides. Lift out to a plate."},
+  {t:"Cook the onion and pepper in the same pan four minutes, then the garlic and ginger one more."},
+  {t:"Add the curry powder and stir it in the oil thirty seconds.",w:"Light coconut milk has less fat to carry flavour, so blooming the spice in oil first matters more here than in a full-fat curry."},
+  {t:"Pour in the coconut milk, soy sauce and brown sugar, and bring to a gentle simmer."},
+  {t:"Add the green beans and chickpeas. Simmer eight minutes until the beans are tender but still bright green."},
+  {t:"Return the tofu for two minutes. Off the heat, squeeze in the lime and tear in the herbs. Serve over rice."}
+ ]
+},
+{
+ id:"lentildal", type:"dinner", short:"Lentil Dal", tags:["Indian"],
+ name:"Golden Red Lentil Dal",
+ protein:40, kcal:600, time:"35 min",
+ prep:{brownRice:1.5},
+ ing:[
+  {k:"redlentils",n:"Red lentils",q:1,u:"cup",e:"Dry, no soaking needed",g:"dry"},
+  {k:"brownrice",n:"Cooked brown rice",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
+  {k:"yogurt",n:"Plain Greek yogurt",q:1,u:"cup",g:"dairy"},
+  {k:"onion",n:"Yellow onion",q:1,u:"",e:"Finely diced",g:"produce"},
+  {k:"garlic",n:"Garlic",q:4,u:"cloves",e:"Minced",g:"produce"},
+  {k:"ginger",n:"Fresh ginger",q:1,u:"tbsp",e:"Grated",g:"produce"},
+  {k:"tomato",n:"Tomato",q:1,u:"",e:"Diced",g:"produce"},
+  {k:"lemon",n:"Lemon",q:0.5,u:"",g:"produce"},
+  {k:"cilantro",n:"Fresh cilantro",q:0.25,u:"bunch",g:"produce"},
+  {k:"butter",n:"Butter or ghee",q:2,u:"tbsp",g:"dairy"},
+  {k:"turmeric",n:"Turmeric",q:1.5,u:"tsp",g:"pantry",p:true},
+  {k:"cumin",n:"Ground cumin",q:2,u:"tsp",g:"pantry",p:true},
+  {k:"coriander",n:"Ground coriander",q:2,u:"tsp",g:"pantry",p:true},
+  {k:"salt",n:"Salt",q:1.25,u:"tsp",g:"pantry",p:true}
+ ],
+ steps:[
+  {t:"Rinse the lentils in a sieve until the water runs mostly clear. Put them in a pot with three cups of water, the turmeric and half a teaspoon of salt."},
+  {t:"Bring to a boil, then drop to a low simmer with the lid ajar. Cook twenty minutes until they collapse completely. Skim the grey foam that rises in the first five minutes."},
+  {t:"While that goes, make the tarka. Melt the butter in a small skillet over medium and cook the onion a full eight minutes until deeply golden.",w:"This is the flavour of the dish. Pale onions give you a thin, flat dal and no amount of spice later will fix it. Eight minutes, no shortcuts."},
+  {t:"Add the garlic, ginger, cumin and coriander to the onions and stir forty-five seconds."},
+  {t:"Add the diced tomato and cook three minutes until it breaks down into the onions."},
+  {t:"Scrape the whole tarka into the lentils with the remaining salt. Simmer five more minutes so it comes together."},
+  {t:"Finish with lemon juice off the heat. Serve over rice with yogurt and cilantro."}
+ ]
+}
+];
+
+var SNACKS=[
+ {id:"yogurtbowl", short:"Yogurt Bowl", name:"Greek yogurt, berries and hemp seeds", tags:[],
+  protein:20, kcal:230,
+  d:"Three-quarters of a cup of plain Greek yogurt, a handful of berries, a tablespoon of hemp seeds. Doubles as your post-workout option on days you would rather chew than drink.",
+  ing:[{k:"yogurt",n:"Plain Greek yogurt",q:0.75,u:"cup",g:"dairy"},
+       {k:"berries",n:"Berries",q:1,u:"cup",g:"produce"},
+       {k:"hemp",n:"Hemp seeds",q:1,u:"tbsp",g:"pantry",p:true}]},
+ {id:"cottagecheese", short:"Cottage Cheese", name:"Cottage cheese with cucumber", tags:[],
+  protein:15, kcal:120,
+  d:"Half a cup of cottage cheese, sliced cucumber, everything bagel seasoning and cracked pepper. The lowest calorie cost per gram of protein on this list.",
+  ing:[{k:"cottage",n:"Cottage cheese",q:2,u:"cups",g:"dairy"},
+       {k:"cucumber",n:"Cucumber",q:1,u:"",g:"produce"},
+       {k:"everything",n:"Everything bagel seasoning",q:null,u:"",g:"pantry",p:true}]},
+ {id:"crispychickpeas", short:"Crispy Chickpeas", name:"Roasted chickpeas", tags:[],
+  protein:11, kcal:190, prep:{roastChickpeas:1},
+  d:"Roasted Sunday. This is the crunch option, worth keeping on hand because yogurt and shakes do not scratch that particular itch.",
+  ing:[{k:"chickpeas",n:"Chickpeas",q:1.5,u:"cups",e:"For roasting",g:"dry"},
+       {k:"oliveoil",n:"Olive oil",q:1,u:"tsp",g:"pantry",p:true}]},
+ {id:"proteinshake", short:"Protein Shake", name:"Protein shake in milk", tags:[],
+  protein:30, kcal:280,
+  d:"One scoop of whey or soy isolate in a cup of milk. Keep this stocked specifically for the days when nothing sounds good, because it asks nothing of your appetite.",
+  ing:[{k:"protein",n:"Protein powder",q:null,u:"",g:"pantry",p:true},
+       {k:"milk",n:"Milk",q:7,u:"cups",e:"About half a gallon",g:"dairy"}]},
+ {id:"boiledeggs", short:"Boiled Eggs", name:"Two hard-boiled eggs", tags:[],
+  protein:13, kcal:150, prep:{boiledEggs:6},
+  d:"From Sunday's batch, with flaky salt and black pepper. Portable, and the one snack that survives a day in a bag on campus.",
+  ing:[{k:"eggs",n:"Eggs",q:6,u:"",e:"For boiling",g:"protein"}]}
+];
+
+var PACKS={chickpeas:{per:1.5,label:"can"},cannellini:{per:1.5,label:"can"},blackbeans:{per:1.5,label:"can"}};
+var GROUPS=[["produce","Produce"],["protein","Protein"],["dry","Canned and dry"],["dairy","Dairy"],["pantry","Pantry, buy once"]];
+var SHORTCUT_NAME="Add Groceries";
+var KEY="weekplan-v2";
+
+/* ============================================================
+   STORAGE
+   Tries three layers in order so the same file works whether
+   it is hosted on GitHub Pages, opened from disk, or rendered
+   inside an app sandbox:
+     1. localStorage        (GitHub Pages, Safari, Chrome)
+     2. window.storage      (Claude artifact sandbox)
+     3. in-memory           (last resort, lasts the session)
+   ============================================================ */
+var Store=(function(){
+  var mem=null, mode="memory";
+  var hasLocal=(function(){
+    try{
+      var t="__wp_test__";
+      window.localStorage.setItem(t,"1");
+      window.localStorage.removeItem(t);
+      return true;
+    }catch(e){return false;}
+  })();
+  var hasArtifact=(function(){
+    try{return !!(window.storage&&window.storage.get&&window.storage.set);}catch(e){return false;}
+  })();
+  if(hasLocal) mode="local";
+  else if(hasArtifact) mode="artifact";
+
+  return {
+    mode:mode,
+    label:function(){
+      if(mode==="local") return "Saved to this browser";
+      if(mode==="artifact") return "Saved to your Claude session";
+      return "Not saving, this session only";
+    },
+    set:function(v){
+      var s=JSON.stringify(v);
+      if(mode==="local"){try{window.localStorage.setItem(KEY,s);}catch(e){}return;}
+      if(mode==="artifact"){try{window.storage.set(KEY,s);}catch(e){}return;}
+      mem=s;
+    },
+    get:function(cb){
+      if(mode==="local"){
+        var raw=null;
+        try{raw=window.localStorage.getItem(KEY);}catch(e){}
+        cb(raw?safeParse(raw):null); return;
+      }
+      if(mode==="artifact"){
+        try{
+          window.storage.get(KEY).then(function(r){
+            cb(r&&r.value?safeParse(r.value):null);
+          }).catch(function(){cb(null);});
+        }catch(e){cb(null);}
+        return;
+      }
+      cb(mem?safeParse(mem):null);
+    }
+  };
+  function safeParse(s){try{return JSON.parse(s);}catch(e){return null;}}
+})();
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+var FR=[[0,""],[0.125,"\u215B"],[0.25,"\u00BC"],[0.333,"\u2153"],[0.5,"\u00BD"],[0.667,"\u2154"],[0.75,"\u00BE"],[1,"C"]];
+function fmt(v){
+  if(v===null||v===undefined) return "";
+  if(v>=10) return String(Math.round(v*10)/10);
+  var w=Math.floor(v+1e-9),f=v-w,best=FR[0],bd=Infinity;
+  for(var i=0;i<FR.length;i++){var d=Math.abs(f-FR[i][0]);if(d<bd){bd=d;best=FR[i];}}
+  var fr=best[1];
+  if(fr==="C"){w+=1;fr="";}
+  if(w===0&&fr==="") return "a pinch";
+  if(w===0) return fr;
+  return fr?(w+fr):String(w);
+}
+function qty(it,m){
+  if(it.q===null||it.q===undefined) return it.u||"to taste";
+  var n=fmt(it.q*m);
+  return it.u?(n+" "+it.u):n;
+}
+var $=function(id){return document.getElementById(id);};
+var state={servings:2,picked:{},filter:"All",amounts:true,shopDone:{},view:"select"};
+var stepsDone={};
+
+function persist(){
+  Store.set({v:2,servings:state.servings,picked:state.picked,amounts:state.amounts,shopDone:state.shopDone});
+}
+function prepTag(r){return r.prep?"Sunday prep":"Quick prep";}
+function tagsOf(r){return [prepTag(r)].concat(r.tags||[]);}
+function allCuisines(){
+  var seen={},out=[];
+  for(var i=0;i<RECIPES.length;i++){
+    var t=RECIPES[i].tags||[];
+    for(var j=0;j<t.length;j++) if(!seen[t[j]]){seen[t[j]]=1;out.push(t[j]);}
+  }
+  out.sort(); return out;
+}
+function matches(r){return state.filter==="All"||tagsOf(r).indexOf(state.filter)>-1;}
+function all(){return RECIPES.concat(SNACKS);}
+function byId(id){var a=all();for(var i=0;i<a.length;i++) if(a[i].id===id) return a[i];return null;}
+function chosen(type){
+  var out=[],src=(type==="snack")?SNACKS:RECIPES;
+  for(var i=0;i<src.length;i++){
+    var r=src[i];
+    if(!state.picked[r.id]) continue;
+    if(type==="snack"||r.type===type) out.push(r);
+  }
+  return out;
+}
+function chosenAll(){return chosen("lunch").concat(chosen("dinner")).concat(chosen("snack"));}
+function count(){var n=0;for(var k in state.picked) if(state.picked[k]) n++;return n;}
+function mult(){return state.servings/2;}
+function toast(msg){
+  var t=$("toast");
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(t._h);
+  t._h=setTimeout(function(){t.classList.remove("on");},2600);
+}
+function badges(r){
+  var t=tagsOf(r),h='<span class="tagrow">';
+  for(var i=0;i<t.length;i++){
+    var cls=(t[i]==="Sunday prep")?"badge sun":(t[i]==="Quick prep"?"badge quick":"badge");
+    h+='<span class="'+cls+'">'+t[i]+'</span>';
+  }
+  return h+'</span>';
+}
+
+/* ---------- select ---------- */
+function renderChips(){
+  var list=["All","Quick prep","Sunday prep"].concat(allCuisines()),h="";
+  for(var i=0;i<list.length;i++)
+    h+='<button class="chip" data-f="'+list[i]+'" aria-pressed="'+(state.filter===list[i])+'">'+list[i]+'</button>';
+  $("chips").innerHTML=h;
+  var c=$("chips").querySelectorAll(".chip");
+  for(var j=0;j<c.length;j++) c[j].addEventListener("click",function(){
+    state.filter=this.getAttribute("data-f"); renderChips(); renderSelect();
+  });
+}
+function pickRow(r){
+  return '<button class="pick" data-id="'+r.id+'" aria-pressed="'+(!!state.picked[r.id])+'">'+
+    '<span class="box">\u2713</span><span class="txt"><span class="short">'+r.short+'</span>'+
+    '<span class="long">'+r.name+'</span>'+badges(r)+'</span>'+
+    '<span class="pr">'+r.protein+'g</span></button>';
+}
+function renderSelect(){
+  function block(title,list,picked){
+    var vis=[];
+    for(var i=0;i<list.length;i++) if(matches(list[i])) vis.push(list[i]);
+    if(!vis.length) return "";
+    var h='<div class="section-h">'+title+' <em>'+picked+' picked</em></div>';
+    for(var j=0;j<vis.length;j++) h+=pickRow(vis[j]);
+    return h;
+  }
+  var L=[],D=[];
+  for(var i=0;i<RECIPES.length;i++){(RECIPES[i].type==="lunch"?L:D).push(RECIPES[i]);}
+  $("sel-lunch").innerHTML=block("Lunches",L,chosen("lunch").length);
+  $("sel-dinner").innerHTML=block("Dinners",D,chosen("dinner").length);
+  $("sel-snack").innerHTML=block("Snacks",SNACKS,chosen("snack").length);
+  if(!$("sel-lunch").innerHTML&&!$("sel-dinner").innerHTML&&!$("sel-snack").innerHTML)
+    $("sel-lunch").innerHTML='<div class="empty">Nothing tagged '+state.filter+' yet.</div>';
+  $("savebtn").disabled=(count()===0);
+  $("savebtn").textContent=count()?("Save this week \u00b7 "+count()+" meals"):"Pick at least one meal";
+  $("storagenote").textContent=Store.label();
+  var btns=document.querySelectorAll(".pick");
+  for(var j=0;j<btns.length;j++) btns[j].addEventListener("click",function(){
+    var id=this.getAttribute("data-id");
+    state.picked[id]=!state.picked[id];
+    persist(); renderSelect();
+  });
+}
+
+/* ---------- week ---------- */
+function goRow(r,sub){
+  return '<button class="go" data-open="'+r.id+'"><span class="txt"><span class="short">'+r.short+'</span>'+
+    '<span class="long">'+r.name+'</span>'+badges(r)+'</span>'+
+    '<span class="meta"><b>'+r.protein+'g</b><span>'+(sub||"")+'</span></span></button>';
+}
+function renderWeek(){
+  var L=chosen("lunch"),D=chosen("dinner"),S=chosen("snack");
+  if(!L.length&&!D.length&&!S.length){
+    $("week-body").innerHTML='<div class="empty">No meals picked yet. Tap <b>Edit</b> below to build your week.</div>';
+    $("weekcount").textContent="Your week"; return;
+  }
+  var h="",i;
+  if(L.length){h+='<div class="section-h">Lunches <em>'+L.length+'</em></div>';for(i=0;i<L.length;i++) h+=goRow(L[i],L[i].time);}
+  if(D.length){h+='<div class="section-h">Dinners <em>'+D.length+'</em></div>';for(i=0;i<D.length;i++) h+=goRow(D[i],D[i].time);}
+  if(S.length){h+='<div class="section-h">Snacks <em>'+S.length+'</em></div>';for(i=0;i<S.length;i++) h+=goRow(S[i],S[i].kcal+" cal");}
+  var meals=L.length+D.length;
+  if(meals>1){
+    var avg=0;for(i=0;i<L.length;i++)avg+=L[i].protein;for(i=0;i<D.length;i++)avg+=D[i].protein;
+    avg=Math.round(avg/meals);
+    h+='<div class="note"><strong>Averaging '+avg+' g of protein per meal.</strong> One lunch, one dinner, a shake and a snack puts you near '+(avg*2+45)+' g for the day, at the top of the 1.2 to 1.6 g/kg range for your weight.</div>';
+  }
+  $("week-body").innerHTML=h;
+  $("weekcount").textContent=count()+" meals \u00b7 "+state.servings+" servings each";
+  var btns=$("week-body").querySelectorAll(".go");
+  for(var j=0;j<btns.length;j++) btns[j].addEventListener("click",function(){openRecipe(this.getAttribute("data-open"));});
+}
+
+/* ---------- recipe ---------- */
+function openRecipe(id){
+  var r=byId(id); if(!r) return;
+  $("rtitle").textContent=r.short;
+  var m=mult(),h="";
+  h+='<h2 style="margin:16px 0 8px">'+r.name+'</h2>'+badges(r);
+  h+='<div class="statbar"><div><span class="k">Protein</span><span class="v hero">'+r.protein+'g</span></div>'+
+     '<div><span class="k">Calories</span><span class="v">'+r.kcal+'</span></div>'+
+     '<div><span class="k">'+(r.time?"Time":"Serves")+'</span><span class="v sm">'+(r.time||"1")+'</span></div></div>';
+  if(r.d) h+='<p class="lead">'+r.d+'</p>';
+  if(r.ing&&r.ing.length){
+    h+='<div class="section-h">Ingredients <em>'+(r.steps?state.servings+" servings":"per portion")+'</em></div><ul class="ing">';
+    for(var i=0;i<r.ing.length;i++){
+      var it=r.ing[i];
+      h+='<li'+(it.p?' class="pantry"':'')+'><span class="nm">'+it.n+(it.e?'<em>'+it.e+'</em>':'')+
+         '</span><span class="qt">'+(r.steps?qty(it,m):"")+'</span></li>';
+    }
+    h+='</ul>';
+  }
+  if(r.steps&&r.steps.length){
+    h+='<div class="section-h">Method <em>tap to check off</em></div><ol class="steps">';
+    for(var k=0;k<r.steps.length;k++){
+      var dn=(stepsDone[id]&&stepsDone[id][k])?"done":"";
+      h+='<li class="'+dn+'" data-s="'+k+'"><span class="body">'+r.steps[k].t+'</span>'+
+         (r.steps[k].w?'<span class="why">'+r.steps[k].w+'</span>':'')+'</li>';
+    }
+    h+='</ol>';
+  }
+  $("recipe-body").innerHTML=h;
+  var li=$("recipe-body").querySelectorAll(".steps li");
+  for(var j=0;j<li.length;j++) li[j].addEventListener("click",function(){
+    var s=this.getAttribute("data-s");
+    if(!stepsDone[id]) stepsDone[id]={};
+    stepsDone[id][s]=!stepsDone[id][s];
+    this.classList.toggle("done");
+  });
+  show("recipe"); window.scrollTo(0,0);
+}
+
+/* ---------- shopping ---------- */
+function buildBag(){
+  var picks=chosenAll(),m=mult(),bag={};
+  for(var i=0;i<picks.length;i++){
+    var ing=picks[i].ing||[];
+    for(var j=0;j<ing.length;j++){
+      var it=ing[j],key=it.k+"|"+(it.u||"");
+      if(!bag[key]) bag[key]={id:key,n:it.n,u:it.u,g:it.g||"dry",p:!!it.p,q:(it.q===null?null:0),k:it.k};
+      if(it.q!==null&&bag[key].q!==null) bag[key].q+=it.q*m;
+    }
+  }
+  return bag;
+}
+function amountFor(it){
+  if(it.p||it.q===null) return "";
+  var q=fmt(it.q)+(it.u?" "+it.u:"");
+  if(PACKS[it.k]){
+    var cans=Math.ceil((it.q/PACKS[it.k].per)-0.001);
+    q+=" ("+cans+" "+PACKS[it.k].label+(cans>1?"s":"")+")";
+  }
+  return q;
+}
+function shopLines(){
+  var bag=buildBag(),lines=[];
+  for(var gi=0;gi<GROUPS.length;gi++){
+    var rows=[];
+    for(var key in bag) if(bag[key].g===GROUPS[gi][0]&&!state.shopDone[key]) rows.push(bag[key]);
+    rows.sort(function(a,b){return a.n<b.n?-1:1;});
+    for(var r=0;r<rows.length;r++){
+      var a=state.amounts?amountFor(rows[r]):"";
+      lines.push(a?(rows[r].n+", "+a):rows[r].n);
+    }
+  }
+  return lines;
+}
+function copyText(txt,okMsg){
+  function fallback(){
+    var ta=document.createElement("textarea");
+    ta.value=txt; ta.setAttribute("readonly","");
+    ta.style.position="fixed"; ta.style.top="-1000px";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0,txt.length);
+    var ok=false;
+    try{ok=document.execCommand("copy");}catch(e){}
+    document.body.removeChild(ta);
+    toast(ok?okMsg:"Copy was blocked here");
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(txt).then(function(){toast(okMsg);}).catch(fallback);
+  else fallback();
+}
+function renderShopActions(){
+  if(!chosenAll().length){$("shop-actions").innerHTML="";return;}
+  var h='<div class="seg">'+
+    '<button data-amt="1" aria-pressed="'+(state.amounts)+'">With amounts</button>'+
+    '<button data-amt="0" aria-pressed="'+(!state.amounts)+'">Names only</button></div>'+
+    '<div class="actions">'+
+    '<button class="act primary" id="a-rem"><span class="ic">\u25CF</span><span class="lab">Send to Reminders<span class="sub">Runs your "'+SHORTCUT_NAME+'" shortcut</span></span></button>'+
+    '<button class="act" id="a-copy"><span class="ic">\u29C9</span><span class="lab">Copy the list<span class="sub">One item per line</span></span></button>';
+  if(navigator.share) h+='<button class="act" id="a-share"><span class="ic">\u2934</span><span class="lab">Share<span class="sub">Opens the system share sheet</span></span></button>';
+  h+='<button class="act" id="a-reset"><span class="ic">\u21BA</span><span class="lab">Reset crossed-off items<span class="sub">Start a fresh shop</span></span></button></div>';
+
+  h+='<details><summary>Setting up Reminders, iPhone and Mac</summary><div class="setup">'+
+   '<h4>Build the shortcut once, on either device</h4><ol>'+
+   '<li>Open <b>Shortcuts</b> and create a new shortcut. Name it exactly <code>'+SHORTCUT_NAME+'</code>. The name has to match or the button here will not find it.</li>'+
+   '<li>In shortcut details, turn on <b>Use as Quick Action</b> and <b>Show in Share Sheet</b>, and set the accepted input to <b>Text</b>.</li>'+
+   '<li>Add <b>Split Text</b>. Input: <b>Shortcut Input</b>. Separator: <b>New Lines</b>.</li>'+
+   '<li>Add <b>Repeat with Each</b>, using the split text.</li>'+
+   '<li>Inside the repeat, add <b>Add New Reminder</b>. Title: <b>Repeat Item</b>. List: your <b>Groceries</b> list. Save.</li>'+
+   '</ol><p>Shortcuts sync through iCloud, so building it on your phone makes it available on the Mac automatically, and the other way round.</p>'+
+   '<h4>Running it on the Mac</h4><ol>'+
+   '<li>Open this page in <b>Safari</b> and click Send to Reminders. Safari will ask once whether to allow the shortcut to run.</li>'+
+   '<li>If you would rather not use the link, click <b>Copy the list</b>, then run the shortcut from the Shortcuts menu bar icon and paste when it asks for input.</li>'+
+   '</ol>'+
+   '<h4>Why not just paste into Reminders</h4>'+
+   '<p>On the iPhone, pasting several lines into a list does split them into separate reminders. On the Mac it usually does not, and you end up with one reminder containing everything. The shortcut behaves the same way on both, which is why it is the route worth setting up.</p>'+
+   '</div></details>';
+
+  $("shop-actions").innerHTML=h;
+
+  var segs=$("shop-actions").querySelectorAll(".seg button");
+  for(var s=0;s<segs.length;s++) segs[s].addEventListener("click",function(){
+    state.amounts=(this.getAttribute("data-amt")==="1"); persist(); renderShop();
+  });
+  $("a-copy").addEventListener("click",function(){
+    var l=shopLines();
+    if(!l.length){toast("Everything is crossed off");return;}
+    copyText(l.join("\n"),l.length+" items copied");
+  });
+  $("a-rem").addEventListener("click",function(){
+    var l=shopLines();
+    if(!l.length){toast("Everything is crossed off");return;}
+    var url="shortcuts://run-shortcut?name="+encodeURIComponent(SHORTCUT_NAME)+"&input=text&text="+encodeURIComponent(l.join("\n"));
+    try{window.location.href=url;}catch(e){}
+    setTimeout(function(){toast("If nothing opened, use Copy instead");},1800);
+  });
+  if($("a-share")) $("a-share").addEventListener("click",function(){
+    var l=shopLines();
+    if(!l.length){toast("Everything is crossed off");return;}
+    navigator.share({title:"Groceries",text:l.join("\n")}).catch(function(){});
+  });
+  $("a-reset").addEventListener("click",function(){
+    state.shopDone={}; persist(); renderShop(); toast("List reset");
+  });
+}
+function renderShop(){
+  renderShopActions();
+  var bag=buildBag(),any=false;
+  for(var t in bag){any=true;break;}
+  if(!any){$("shop-body").innerHTML='<div class="empty">Pick some meals first and your list builds itself.</div>';return;}
+  var h="";
+  for(var gi=0;gi<GROUPS.length;gi++){
+    var rows=[];
+    for(var key in bag) if(bag[key].g===GROUPS[gi][0]) rows.push(bag[key]);
+    if(!rows.length) continue;
+    rows.sort(function(a,b){return a.n<b.n?-1:1;});
+    h+='<div class="shopgrp"><div class="section-h">'+GROUPS[gi][1]+' <em>'+rows.length+'</em></div><ul class="shoplist">';
+    for(var r=0;r<rows.length;r++){
+      var it=rows[r],q="";
+      if(!it.p&&it.q!==null){
+        q=fmt(it.q)+(it.u?" "+it.u:"");
+        if(PACKS[it.k]){
+          var cans=Math.ceil((it.q/PACKS[it.k].per)-0.001);
+          q+=" \u00b7 "+cans+" "+PACKS[it.k].label+(cans>1?"s":"");
+        }
+      }
+      h+='<li class="'+(state.shopDone[it.id]?"got":"")+'" data-id="'+it.id+'"><span class="nm">'+it.n+'</span><span class="qt">'+q+'</span></li>';
+    }
+    h+='</ul></div>';
+  }
+  h+='<div class="note"><strong>Spices and oil scale sub-linearly.</strong> If you doubled the servings, start with about one and a half times the spice and adjust at the end rather than doubling it outright.</div>';
+  $("shop-body").innerHTML=h;
+  var li=$("shop-body").querySelectorAll(".shoplist li");
+  for(var z=0;z<li.length;z++) li[z].addEventListener("click",function(){
+    var id=this.getAttribute("data-id");
+    state.shopDone[id]=!state.shopDone[id];
+    this.classList.toggle("got");
+    persist();
+  });
+}
+
+/* ---------- prep ---------- */
+function renderPrep(){
+  var picks=chosenAll(),need={brownRice:0,quinoa:0,roastChickpeas:0,boiledEggs:0};
+  for(var i=0;i<picks.length;i++){
+    var p=picks[i].prep; if(!p) continue;
+    for(var k in p) need[k]=(need[k]||0)+p[k]*((k==="brownRice"||k==="quinoa")?mult():1);
+  }
+  var tasks=[];
+  if(need.brownRice>0){
+    var cookerCups=Math.min(3,Math.max(0.5,Math.round((need.brownRice/2.3)*2)/2));
+    var cycles=need.brownRice>7?Math.ceil(need.brownRice/7):1;
+    tasks.push({tag:"Rice cooker \u00b7 Brown setting \u00b7 ~90 min",h:"Brown rice",
+      b:"You need about <b>"+fmt(need.brownRice)+" cups cooked</b> this week. Rinse <b>"+fmt(cookerCups)+" cooker cups</b> of brown rice until the water runs clear, fill to the matching Brown line, and press Brown."+
+        (cycles>1?" That is more than one pot holds, so run <b>"+cycles+" cycles</b> or cook the second half fresh midweek.":""),
+      w:"Rinsing washes off surface starch. Unrinsed rice clumps and goes gummy when you reheat it on Thursday."});
+    tasks.push({tag:"After the cycle \u00b7 5 min",h:"Cool the rice fast",
+      b:"Spread it on a sheet pan in a thin layer for fifteen minutes, then pack it into containers and refrigerate. Freeze a portion flat in a bag if it needs to last past Wednesday.",
+      w:"Cooked rice held warm for hours is the one real food-safety risk in this plan. Into the fridge within the hour, and never left on keep-warm overnight."});
+  }
+  if(need.quinoa>0) tasks.push({tag:"Rice cooker \u00b7 White or Quick \u00b7 ~30 min",h:"Quinoa",
+    b:"You need about <b>"+fmt(need.quinoa)+" cups cooked</b>. Rinse <b>"+fmt(need.quinoa/3)+" cup dry</b> in a fine sieve, then cook at roughly one part quinoa to one and three-quarter parts water.",
+    w:"Unrinsed quinoa carries saponin, a natural coating that tastes soapy. Thirty seconds under the tap fixes it."});
+  if(need.boiledEggs>0) tasks.push({tag:"Stovetop \u00b7 15 min",h:"Hard-boil "+Math.round(need.boiledEggs)+" eggs",
+    b:"Lower them into already-boiling water, nine minutes for firm yolks, then straight into ice water.",
+    w:"Leave them unpeeled and they keep a full week. Peel each one as you eat it."});
+  if(need.roastChickpeas>0) tasks.push({tag:"Oven 425\u00b0F \u00b7 35 min",h:"Roast the snack chickpeas",
+    b:"Drain a can, dry them thoroughly on a towel, toss with a teaspoon of oil and half a teaspoon of salt, roast thirty to thirty-five minutes, shaking the pan twice.",
+    w:"Cool completely, then store somewhere <b>not airtight</b>. Sealed while warm they go soft overnight."});
+
+  if(!tasks.length){
+    $("prep-body").innerHTML='<div class="empty">Nothing to prep for the meals you picked. Everything cooks fresh.</div>';
+    $("preplead").textContent=count()?"Every meal you chose is tagged Quick prep.":"";
+    return;
+  }
+  var h='<ol class="tl">';
+  for(var t=0;t<tasks.length;t++)
+    h+='<li><p class="tag">'+tasks[t].tag+'</p><h3>'+tasks[t].h+'</h3><p>'+tasks[t].b+'</p><p class="why">'+tasks[t].w+'</p></li>';
+  h+='</ol><div class="note"><strong>Take the pill before any of this.</strong> The tablet goes down first thing with up to four ounces of plain water, and nothing else for thirty minutes. Coffee counts as something else.</div>';
+  $("prep-body").innerHTML=h;
+  $("preplead").textContent="Built from your "+count()+" picks. Around "+(15+tasks.length*4)+" minutes hands-on, most of it waiting on the cooker.";
+}
+
+/* ---------- routing ---------- */
+function show(v){
+  state.view=v;
+  var views=["select","week","recipe","shop","prep"];
+  for(var i=0;i<views.length;i++) $("v-"+views[i]).classList.toggle("on",views[i]===v);
+  var nb=document.querySelectorAll(".nav button");
+  for(var j=0;j<nb.length;j++){
+    var g=nb[j].getAttribute("data-go");
+    nb[j].setAttribute("aria-current",(g===v||(v==="recipe"&&g==="week"))?"true":"false");
+  }
+  if(v==="week") renderWeek();
+  if(v==="shop") renderShop();
+  if(v==="prep") renderPrep();
+  if(v==="select"){renderChips();renderSelect();}
+}
+var navb=document.querySelectorAll(".nav button");
+for(var n=0;n<navb.length;n++) navb[n].addEventListener("click",function(){
+  show(this.getAttribute("data-go")); window.scrollTo(0,0);
+});
+$("rback").addEventListener("click",function(){show("week");window.scrollTo(0,0);});
+$("savebtn").addEventListener("click",function(){persist();toast("Week saved");show("week");window.scrollTo(0,0);});
+
+function setServ(v){
+  state.servings=Math.max(1,Math.min(8,v));
+  $("servnum").textContent=state.servings;
+  $("minus").disabled=(state.servings<=1);
+  $("plus").disabled=(state.servings>=8);
+  persist();
+}
+$("minus").addEventListener("click",function(){setServ(state.servings-1);});
+$("plus").addEventListener("click",function(){setServ(state.servings+1);});
+
+Store.get(function(d){
+  if(d){
+    if(d.servings) state.servings=d.servings;
+    if(d.picked) state.picked=d.picked;
+    if(typeof d.amounts==="boolean") state.amounts=d.amounts;
+    if(d.shopDone) state.shopDone=d.shopDone;
+  }
+  setServ(state.servings);
+  show(count()?"week":"select");
+});
+
+})();
+</script>
+</body>
+</html>
