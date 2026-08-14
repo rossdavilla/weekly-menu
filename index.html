@@ -51,12 +51,9 @@ h2{font-family:"Zilla Slab",serif;font-weight:600;font-size:25px;line-height:1.1
 .chip:active,.chip:hover{background:var(--soft);}
 .chip[aria-pressed="true"]{background:var(--jade-deep);border-color:var(--jade-deep);color:var(--mint);}
 
-.pick,.go{display:flex;align-items:center;gap:14px;width:100%;appearance:none;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:10px;min-height:78px;transition:border-color .12s,background .12s;}
-.pick:active,.go:active,.pick:hover,.go:hover{background:var(--soft);}
-.pick .box{flex:0 0 auto;width:26px;height:26px;border-radius:6px;border:2px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;line-height:1;}
-.pick[aria-pressed="true"]{border-color:var(--jade);}
-.pick[aria-pressed="true"] .box{background:var(--jade);border-color:var(--jade);color:#fff;}
-.pick .txt,.go .txt{flex:1 1 auto;min-width:0;}
+.go{display:flex;align-items:center;gap:14px;width:100%;appearance:none;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:10px;min-height:78px;transition:border-color .12s,background .12s;}
+.go:active,.go:hover{background:var(--soft);}
+.go .txt{flex:1 1 auto;min-width:0;}
 .short{display:block;font-family:"Zilla Slab",serif;font-size:20px;font-weight:600;line-height:1.15;}
 .long{display:block;font-size:13px;color:var(--slate);line-height:1.35;margin-top:2px;}
 .tagrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
@@ -157,6 +154,37 @@ details[open] summary{border-bottom:1px solid var(--soft);}
 
 .view{display:none;padding-top:8px;}
 .view.on{display:block;}
+/* ---------- recipe cards (selection) ---------- */
+.picklist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:8px;}
+.pick{display:flex;flex-direction:column;width:100%;appearance:none;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;padding:0;margin:0;transition:border-color .12s,box-shadow .12s,transform .06s;}
+.pick:active{transform:scale(.985);}
+.pick .thumb{position:relative;width:100%;aspect-ratio:4/3;background:var(--soft);}
+.pick .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.pick .check{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(20,32,29,.4);border:1.5px solid rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:transparent;font-size:14px;line-height:1;transition:background .12s,color .12s;}
+.pick .ppill{position:absolute;left:8px;bottom:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:#fff;background:rgba(12,58,51,.74);border-radius:6px;padding:3px 7px;letter-spacing:.02em;}
+.pick .cbody{padding:10px 12px 13px;display:flex;flex-direction:column;gap:7px;min-width:0;}
+.pick .cbody .short{font-size:16px;line-height:1.14;}
+.pick .tagrow{margin-top:0;}
+.pick .badge{font-size:9px;padding:2px 6px;}
+.pick[aria-pressed="true"]{border-color:var(--jade);box-shadow:0 0 0 2px var(--jade);}
+.pick[aria-pressed="true"] .check{background:var(--jade);border-color:#fff;color:#fff;}
+
+/* ---------- recipe page ---------- */
+.recipe-name{margin:14px 0 12px;}
+.recipe-hero{margin:0 0 14px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--soft);}
+.recipe-hero img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;}
+.rtabs{margin:20px 0 16px;}
+.rpanel[hidden]{display:none;}
+.rpanel .section-h:first-child{margin-top:0;}
+
+/* ---------- step timers ---------- */
+.steps .timer{display:inline-flex;align-items:center;gap:7px;margin-top:12px;appearance:none;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.03em;border:1px solid var(--jade);color:var(--jade);background:var(--panel);border-radius:999px;padding:8px 14px;line-height:1;font-variant-numeric:tabular-nums;}
+.steps .timer:hover{background:var(--soft);}
+.steps .timer.running{border-color:var(--jade);background:var(--jade);color:#fff;}
+.steps .timer.ringing{border-color:var(--ember);background:var(--ember);color:#fff;animation:tflash 1s steps(1,end) infinite;}
+.steps .timer.done{border-color:var(--line);color:var(--slate);background:var(--panel);}
+@keyframes tflash{50%{opacity:.5;}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
 </head>
@@ -1078,18 +1106,18 @@ function renderChips(){
 }
 function pickRow(r){
   return '<button class="pick" data-id="'+r.id+'" aria-pressed="'+(!!state.picked[r.id])+'">'+
-    '<span class="box">\u2713</span><span class="txt"><span class="short">'+r.short+'</span>'+
-    '<span class="long">'+r.name+'</span>'+badges(r)+'</span>'+
-    '<span class="pr">'+r.protein+'g</span></button>';
+    '<span class="thumb"><img src="img/'+r.id+'.jpg" alt="" loading="lazy">'+
+    '<span class="check">\u2713</span><span class="ppill">'+r.protein+'g</span></span>'+
+    '<span class="cbody"><span class="short">'+r.short+'</span>'+badges(r)+'</span></button>';
 }
 function renderSelect(){
   function block(title,list,picked){
     var vis=[];
     for(var i=0;i<list.length;i++) if(matches(list[i])) vis.push(list[i]);
     if(!vis.length) return "";
-    var h='<div class="section-h">'+title+' <em>'+picked+' picked</em></div>';
+    var h='<div class="section-h">'+title+' <em>'+picked+' picked</em></div><div class="picklist">';
     for(var j=0;j<vis.length;j++) h+=pickRow(vis[j]);
-    return h;
+    return h+'</div>';
   }
   var L=[],D=[];
   for(var i=0;i<RECIPES.length;i++){(RECIPES[i].type==="lunch"?L:D).push(RECIPES[i]);}
@@ -1144,34 +1172,104 @@ function renderWeek(){
 }
 
 /* ---------- recipe ---------- */
+/* Detect the primary cooking duration mentioned in a step (digits or spelled-out;
+   ranges use the lower bound; "more/full" fillers allowed). Returns seconds or null. */
+var _WD={a:1,an:1,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+var _NUMRE="(?:\\d+(?:\\.\\d+)?|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|nineteen|eighteen|seventeen|sixteen|fifteen|fourteen|thirteen|twelve|eleven|ten|one|two|three|four|five|six|seven|eight|nine|an|a)";
+var _TIMER_RE=new RegExp("\\b"+_NUMRE+"\\s+(?:(?:more|full|additional|whole|other|to\\s+"+_NUMRE+")\\s+)*(seconds?|secs?|minutes?|mins?|hours?|hrs?)\\b","i");
+function _word2num(w){ w=w.toLowerCase(); if(/^\d/.test(w)) return parseFloat(w); if(w.indexOf("-")>-1){ var ps=w.split("-"),s=0; for(var i=0;i<ps.length;i++) s+=(_WD[ps[i]]||0); return s; } return (_WD[w]!==undefined)?_WD[w]:null; }
+function parseDuration(text){
+  var m=_TIMER_RE.exec(text); if(!m) return null;
+  var lead=/\s*([\w.\-]+)/.exec(text.slice(m.index))[1];
+  var n=_word2num(lead); if(n===null||!isFinite(n)) return null;
+  var u=m[1].toLowerCase(),sec;
+  if(u.indexOf("sec")===0) sec=n; else if(u.indexOf("min")===0) sec=n*60; else sec=n*3600;
+  sec=Math.round(sec); return (sec>0)?sec:null;
+}
+function _clock(s){ var m=Math.floor(s/60),ss=s%60; return m+":"+(ss<10?"0":"")+ss; }
+function _idleLabel(sec){ return "⏱ "+_clock(sec)+" · start"; }
+/* Shared looping chime; primed on the first user gesture so iOS lets it fire later. */
+var _chime=null,_ringing={},_timers={};
+function _getChime(){ if(!_chime){ _chime=new Audio("sound/iphone_timer_sound.mp3"); _chime.loop=true; _chime.preload="auto"; } return _chime; }
+function _primeChime(){ try{ var a=_getChime(); if(a._primed) return; a.muted=true; var p=a.play(); function fin(){ a.pause(); a.currentTime=0; a.muted=false; a._primed=true; } if(p&&p.then) p.then(fin).catch(function(){ a.muted=false; }); else fin(); }catch(e){} }
+function _startChime(){ try{ var a=_getChime(); a.muted=false; a.currentTime=0; var p=a.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+function _maybeStopChime(){ for(var k in _ringing){ if(_ringing[k]) return; } if(_chime){ _chime.pause(); _chime.currentTime=0; } }
+function clearTimers(){ for(var k in _timers){ clearInterval(_timers[k]); } _timers={}; _ringing={}; if(_chime){ _chime.pause(); _chime.currentTime=0; } }
+function _wireTimer(btn){
+  var key=btn.getAttribute("data-key");
+  btn.addEventListener("click",function(ev){
+    ev.stopPropagation();
+    if(btn.classList.contains("ringing")){
+      _ringing[key]=false; _maybeStopChime();
+      btn.className="timer done"; btn.textContent="✓ done · "+_clock(+btn.getAttribute("data-sec"))+" · restart";
+      return;
+    }
+    if(btn.classList.contains("running")){
+      clearInterval(_timers[key]); delete _timers[key];
+      btn.className="timer"; btn.textContent=_idleLabel(+btn.getAttribute("data-sec"));
+      return;
+    }
+    _primeChime();
+    var left=+btn.getAttribute("data-sec");
+    btn.className="timer running"; btn.textContent="⏱ "+_clock(left)+" · tap to cancel";
+    _timers[key]=setInterval(function(){
+      left--;
+      if(left<=0){
+        clearInterval(_timers[key]); delete _timers[key];
+        btn.className="timer ringing"; btn.textContent="⏰ time’s up · tap to stop";
+        _ringing[key]=true; _startChime();
+      } else { btn.textContent="⏱ "+_clock(left)+" · tap to cancel"; }
+    },1000);
+  });
+}
 function openRecipe(id){
+  clearTimers();
   var r=byId(id); if(!r) return;
   $("rtitle").textContent=r.short;
   var m=mult(),h="";
-  h+='<h2 style="margin:16px 0 8px">'+r.name+'</h2>'+badges(r);
+  h+='<h2 class="recipe-name">'+r.name+'</h2>';
+  h+='<figure class="recipe-hero"><img src="img/'+r.id+'.jpg" alt="'+r.name+'"></figure>';
+  h+=badges(r);
   h+='<div class="statbar"><div><span class="k">Protein</span><span class="v hero">'+r.protein+'g</span></div>'+
      '<div><span class="k">Calories</span><span class="v">'+r.kcal+'</span></div>'+
      '<div><span class="k">'+(r.time?"Time":"Serves")+'</span><span class="v sm">'+(r.time||"1")+'</span></div></div>';
   if(r.d) h+='<p class="lead">'+r.d+'</p>';
-  if(r.ing&&r.ing.length){
-    h+='<div class="section-h">Ingredients <em>'+(r.steps?state.servings+" servings":"per portion")+'</em></div><ul class="ing">';
+  var hasSteps=r.steps&&r.steps.length,hasIng=r.ing&&r.ing.length;
+  function ingHTML(){
+    var s='<div class="section-h">Ingredients <em>'+(r.steps?state.servings+" servings":"per portion")+'</em></div><ul class="ing">';
     for(var i=0;i<r.ing.length;i++){
       var it=r.ing[i];
-      h+='<li'+(it.p?' class="pantry"':'')+'><span class="nm">'+it.n+(it.e?'<em>'+it.e+'</em>':'')+
+      s+='<li'+(it.p?' class="pantry"':'')+'><span class="nm">'+it.n+(it.e?'<em>'+it.e+'</em>':'')+
          '</span><span class="qt">'+(r.steps?qty(it,m):"")+'</span></li>';
     }
-    h+='</ul>';
+    return s+'</ul>';
   }
-  if(r.steps&&r.steps.length){
-    h+='<div class="section-h">Method <em>tap to check off</em></div><ol class="steps">';
+  function stepsHTML(){
+    var s='<div class="section-h">Instructions <em>tap to check off</em></div><ol class="steps">';
     for(var k=0;k<r.steps.length;k++){
-      var dn=(stepsDone[id]&&stepsDone[id][k])?"done":"";
-      h+='<li class="'+dn+'" data-s="'+k+'"><span class="body">'+r.steps[k].t+'</span>'+
+      var dn=(stepsDone[id]&&stepsDone[id][k])?"done":"",secs=parseDuration(r.steps[k].t);
+      s+='<li class="'+dn+'" data-s="'+k+'"><span class="body">'+r.steps[k].t+'</span>'+
+         (secs?'<button class="timer" data-key="'+id+'-'+k+'" data-sec="'+secs+'">'+_idleLabel(secs)+'</button>':'')+
          (r.steps[k].w?'<span class="why">'+r.steps[k].w+'</span>':'')+'</li>';
     }
-    h+='</ol>';
+    return s+'</ol>';
+  }
+  if(hasSteps){
+    h+='<div class="seg rtabs"><button data-tab="ing" aria-pressed="true">Ingredients</button>'+
+       '<button data-tab="steps" aria-pressed="false">Instructions</button></div>';
+    h+='<div class="rpanel" data-panel="ing">'+(hasIng?ingHTML():"")+'</div>';
+    h+='<div class="rpanel" data-panel="steps" hidden>'+stepsHTML()+'</div>';
+  } else if(hasIng){
+    h+=ingHTML();
   }
   $("recipe-body").innerHTML=h;
+  var tb=$("recipe-body").querySelectorAll(".rtabs button");
+  for(var a=0;a<tb.length;a++) tb[a].addEventListener("click",function(){
+    var t=this.getAttribute("data-tab"),bs=$("recipe-body").querySelectorAll(".rtabs button");
+    for(var b=0;b<bs.length;b++) bs[b].setAttribute("aria-pressed",bs[b].getAttribute("data-tab")===t?"true":"false");
+    var ps=$("recipe-body").querySelectorAll(".rpanel");
+    for(var p=0;p<ps.length;p++){ if(ps[p].getAttribute("data-panel")===t) ps[p].removeAttribute("hidden"); else ps[p].setAttribute("hidden",""); }
+  });
   var li=$("recipe-body").querySelectorAll(".steps li");
   for(var j=0;j<li.length;j++) li[j].addEventListener("click",function(){
     var s=this.getAttribute("data-s");
@@ -1179,6 +1277,8 @@ function openRecipe(id){
     stepsDone[id][s]=!stepsDone[id][s];
     this.classList.toggle("done");
   });
+  var tmrs=$("recipe-body").querySelectorAll(".steps .timer");
+  for(var z=0;z<tmrs.length;z++) _wireTimer(tmrs[z]);
   show("recipe"); window.scrollTo(0,0);
 }
 
