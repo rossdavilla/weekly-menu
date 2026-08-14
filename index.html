@@ -1131,10 +1131,16 @@ function renderWeek(){
     avg=Math.round(avg/meals);
     h+='<div class="note"><strong>Averaging '+avg+' g of protein per meal.</strong> One lunch, one dinner, a shake and a snack puts you near '+(avg*2+45)+' g for the day, at the top of the 1.2 to 1.6 g/kg range for your weight.</div>';
   }
+  h+='<div class="actions"><button class="act" id="a-resetweek"><span class="ic">\u21ba</span><span class="lab">Reset week<span class="sub">Clear all selected meals</span></span></button></div>';
   $("week-body").innerHTML=h;
   $("weekcount").textContent=count()+" meals \u00b7 "+state.servings+" servings each";
   var btns=$("week-body").querySelectorAll(".go");
   for(var j=0;j<btns.length;j++) btns[j].addEventListener("click",function(){openRecipe(this.getAttribute("data-open"));});
+  $("a-resetweek").addEventListener("click",function(){
+    if(!confirm("Clear all selected meals for this week?")) return;
+    state.picked={};state.shopDone={};persist();
+    toast("Week reset");show("select");window.scrollTo(0,0);
+  });
 }
 
 /* ---------- recipe ---------- */
