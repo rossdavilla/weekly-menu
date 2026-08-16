@@ -1317,15 +1317,21 @@ function buildBag(){
   }
   return bag;
 }
-function amountFor(it){
+/* Grocery-list quantity: leave volume/weight measurements off. Only show a count
+   when you need multiple discrete units to buy (e.g. "2 cans", or "3" whole limes). */
+var MEASURE={cup:1,cups:1,oz:1,tbsp:1,tsp:1,bunch:1,"large bunch":1,clove:1,cloves:1,slice:1,slices:1,stalk:1,stalks:1,pinch:1,handful:1,lb:1,lbs:1,g:1,kg:1,ml:1,l:1};
+function groceryQty(it){
   if(it.p||it.q===null) return "";
-  var q=fmt(it.q)+(it.u?" "+it.u:"");
   if(PACKS[it.k]){
     var cans=Math.ceil((it.q/PACKS[it.k].per)-0.001);
-    q+=" ("+cans+" "+PACKS[it.k].label+(cans>1?"s":"")+")";
+    return cans>=2?(cans+" "+PACKS[it.k].label+"s"):"";
   }
-  return q;
+  if(MEASURE[it.u]) return "";
+  var n=Math.ceil(it.q-0.001);
+  if(n<2) return "";
+  return (it.u==="can"||it.u==="cans")?(n+" cans"):String(n);
 }
+function amountFor(it){ return groceryQty(it); }
 function shopLines(){
   var bag=buildBag(),lines=[];
   for(var gi=0;gi<GROUPS.length;gi++){
@@ -1422,14 +1428,7 @@ function renderShop(){
     rows.sort(function(a,b){return a.n<b.n?-1:1;});
     h+='<div class="shopgrp"><div class="section-h">'+GROUPS[gi][1]+' <em>'+rows.length+'</em></div><ul class="shoplist">';
     for(var r=0;r<rows.length;r++){
-      var it=rows[r],q="";
-      if(!it.p&&it.q!==null){
-        q=fmt(it.q)+(it.u?" "+it.u:"");
-        if(PACKS[it.k]){
-          var cans=Math.ceil((it.q/PACKS[it.k].per)-0.001);
-          q+=" \u00b7 "+cans+" "+PACKS[it.k].label+(cans>1?"s":"");
-        }
-      }
+      var it=rows[r],q=groceryQty(it);
       h+='<li class="'+(state.shopDone[it.id]?"got":"")+'" data-id="'+it.id+'"><span class="nm">'+it.n+'</span><span class="qt">'+q+'</span></li>';
     }
     h+='</ul></div>';
