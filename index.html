@@ -89,10 +89,13 @@ h2{font-family:"Zilla Slab",serif;font-weight:600;font-size:25px;line-height:1.1
 .ing li.pantry .qt{color:var(--slate);}
 
 .steps{list-style:none;counter-reset:s;margin:0;padding:0;}
-.steps li{counter-increment:s;position:relative;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 54px;margin-bottom:10px;font-size:16.5px;line-height:1.5;}
-.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:14px;top:17px;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--jade);}
-.steps li.done{opacity:.4;}
-.steps li.done .body{text-decoration:line-through;text-decoration-thickness:1px;}
+.steps>li{counter-increment:s;position:relative;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 54px;margin-bottom:10px;font-size:16.5px;line-height:1.5;}
+.steps>li::before{content:counter(s,decimal-leading-zero);position:absolute;left:14px;top:17px;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;color:var(--jade);}
+.steps>li.done{opacity:.4;}
+.steps>li.done .body{text-decoration:line-through;text-decoration-thickness:1px;}
+.steps .prep{list-style:disc;margin:9px 0 0;padding-left:20px;}
+.steps .prep li{margin:0 0 5px;line-height:1.45;}
+.steps .prep li:last-child{margin-bottom:0;}
 .steps .why{display:block;margin-top:8px;font-size:14px;color:var(--ember);line-height:1.45;}
 .steps b{font-weight:600;}
 
@@ -314,7 +317,7 @@ var RECIPES=[
   {k:"olives",n:"Kalamata olives",q:0.25,u:"cup",e:"Halved",g:"dry"},
   {k:"feta",n:"Feta",q:3,u:"oz",e:"Crumbled",g:"dairy"},
   {k:"yogurt",n:"Plain Greek yogurt",q:0.5,u:"cup",g:"dairy"},
-  {k:"parsley",n:"Fresh parsley",q:0.25,u:"cup",e:"Chopped",g:"produce"},
+  {k:"parsley",n:"Fresh parsley",q:2,u:"tbsp",e:"Chopped",g:"produce"},
   {k:"dill",n:"Fresh dill",q:3,u:"tbsp",e:"Chopped",g:"produce"},
   {k:"lemon",n:"Lemon",q:1,u:"",e:"For 3 tbsp juice",g:"produce"},
   {k:"oliveoil",n:"Olive oil",q:2,u:"tbsp",g:"pantry",p:true},
@@ -323,7 +326,7 @@ var RECIPES=[
   {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Drain and rinse 3 cups of cannellini beans. Halve 1\u00bd cups of cherry tomatoes and dice 1 cup of cucumber. Slice a quarter cup of red onion paper thin and halve a quarter cup of kalamata olives. Crumble 3 ounces of feta. Chop a quarter cup of parsley and 3 tablespoons of dill, and juice 1 lemon. Measure out 2 tablespoons olive oil, 1 tablespoon red wine vinegar, 1 teaspoon dried oregano, and salt and pepper. Have your cooked quinoa and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Drain and rinse 3 cups of cannellini beans</li><li>Halve 1\u00bd cups of cherry tomatoes</li><li>Dice 1 cup of cucumber</li><li>Slice a quarter cup of red onion paper thin</li><li>Halve a quarter cup of kalamata olives</li><li>Crumble 3 ounces of feta</li><li>Chop 2 tablespoons of parsley</li><li>Chop 3 tablespoons of dill</li><li>Juice 1 lemon</li><li>Measure out 2 tablespoons olive oil, 1 tablespoon red wine vinegar, 1 teaspoon dried oregano, and salt and pepper</li><li>Have your cooked quinoa and yogurt ready</li></ul>"},
   {t:"Whisk the lemon juice, olive oil, vinegar, oregano, salt and pepper together in a <b>large</b> bowl, big enough to hold everything."},
   {t:"Add the drained beans and toss. Leave them ten minutes before adding anything else.",w:"Beans are bland alone and only taste seasoned if the dressing has time to soak in. This ten minutes is the whole dish."},
   {t:"While they sit, cut the cucumber, tomatoes and onion. Add them with the olives and herbs, and toss again."},
@@ -355,7 +358,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice 1 yellow onion. Mince 3 cloves of garlic and grate 1 tablespoon of ginger. Drain 3 cups of chickpeas and roughly chop a quarter bunch of cilantro. Juice half a lemon. Measure out 2 teaspoons cumin, 2 teaspoons coriander, 1 teaspoon turmeric, 1 teaspoon garam masala, and 1 teaspoon salt. Have your cooked rice and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice 1 yellow onion</li><li>Mince 3 cloves of garlic</li><li>Grate 1 tablespoon of ginger</li><li>Drain 3 cups of chickpeas</li><li>Roughly chop a quarter bunch of cilantro</li><li>Juice half a lemon</li><li>Measure out 2 teaspoons cumin, 2 teaspoons coriander, 1 teaspoon turmeric, 1 teaspoon garam masala, and 1 teaspoon salt</li><li>Have your cooked rice and yogurt ready</li></ul>"},
   {t:"Warm the oil in a wide pan over medium. Cook the onion six to eight minutes until soft and just catching gold at the edges."},
   {t:"Add garlic and ginger for a minute, then all four ground spices. Stir them in the oil thirty seconds until the smell blooms.",w:"Frying spices in fat, rather than dropping them into liquid, is the biggest single difference between a curry that tastes cooked and one that tastes dusty."},
   {t:"Pour in the crushed tomatoes and salt. Simmer five minutes until it darkens slightly."},
@@ -387,7 +390,7 @@ var RECIPES=[
   {k:"neutraloil",n:"Neutral oil",q:1,u:"tbsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Slice 8 ounces of tempeh a quarter inch thick. Cut 1 large carrot and 1 cup of daikon into matchsticks, and peel 1 cup of cucumber into ribbons. Mince 2 cloves of garlic, juice 1 lime, and chop 2 tablespoons of peanuts. Pick a loose half cup of cilantro and mint leaves. Measure out a third cup of rice vinegar, 2 tablespoons sugar, 3 tablespoons soy sauce, and 1 tablespoon maple syrup. Have your cooked rice and thawed edamame ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Slice 8 ounces of tempeh a quarter inch thick</li><li>Cut 1 large carrot and 1 cup of daikon into matchsticks</li><li>Peel 1 cup of cucumber into ribbons</li><li>Mince 2 cloves of garlic</li><li>Juice 1 lime</li><li>Chop 2 tablespoons of peanuts</li><li>Pick a loose half cup of cilantro and mint leaves</li><li>Measure out a third cup of rice vinegar, 2 tablespoons sugar, 3 tablespoons soy sauce, and 1 tablespoon maple syrup</li><li>Have your cooked rice and thawed edamame ready</li></ul>"},
   {t:"Start the pickles first. Stir the vinegar, sugar and half a teaspoon of salt until dissolved, then add the carrot and daikon. Leave twenty minutes, stirring once."},
   {t:"Whisk the soy sauce, lime juice, maple syrup and garlic. Pour half over the tempeh and leave ten minutes. Keep the rest as your finishing sauce."},
   {t:"Heat the oil in a skillet over medium-high and sear the tempeh three minutes a side until deeply browned.",w:"Tempeh tastes chalky and faintly bitter when pale. Let it go further than feels comfortable."},
@@ -415,7 +418,7 @@ var RECIPES=[
   {k:"sesameoil",n:"Toasted sesame oil",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Cube 14 ounces of firm tofu. Slice 4 ounces of shiitake mushrooms and halve 2 heads of bok choy lengthwise. Grate 1 tablespoon of ginger, smash 2 cloves of garlic, and slice 3 scallions. Measure out 3 tablespoons white miso, 1 tablespoon soy sauce, and 1 teaspoon toasted sesame oil."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Cube 14 ounces of firm tofu</li><li>Slice 4 ounces of shiitake mushrooms</li><li>Halve 2 heads of bok choy lengthwise</li><li>Grate 1 tablespoon of ginger</li><li>Smash 2 cloves of garlic</li><li>Slice 3 scallions</li><li>Measure out 3 tablespoons white miso, 1 tablespoon soy sauce, and 1 teaspoon toasted sesame oil</li></ul>"},
   {t:"Soft-boil the eggs: seven minutes in boiling water, then straight into ice water. Peel and halve."},
   {t:"Cook the soba to package time, usually four minutes, then drain and rinse under cold water.",w:"Soba sheds a lot of starch. Rinsing keeps the broth clear instead of gluey."},
   {t:"Simmer the broth with the ginger, garlic and mushrooms five minutes. Add the bok choy and edamame for two minutes more."},
@@ -446,7 +449,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:0.5,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice 1 red bell pepper and half a yellow onion. Drain 2 cups of black beans and shred 2 ounces of sharp cheddar. Slice half an avocado, chop a quarter bunch of cilantro, and juice 1 lime. Measure out 1 teaspoon smoked paprika, 1 teaspoon cumin, and half a teaspoon salt. Have your yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice 1 red bell pepper</li><li>Dice half a yellow onion</li><li>Drain 2 cups of black beans</li><li>Shred 2 ounces of sharp cheddar</li><li>Slice half an avocado</li><li>Chop a quarter bunch of cilantro</li><li>Juice 1 lime</li><li>Measure out 1 teaspoon smoked paprika, 1 teaspoon cumin, and half a teaspoon salt</li><li>Have your yogurt ready</li></ul>"},
   {t:"Heat the oil over medium and cook the onion and bell pepper five minutes until softened."},
   {t:"Add the corn, cumin, smoked paprika and salt. Cook three minutes and let the corn take on a little colour.",w:"Smoked paprika is doing the work chillies would normally do here. Depth and smoke, no heat at all."},
   {t:"Stir in the black beans and warm them through, about two minutes."},
@@ -477,7 +480,7 @@ var RECIPES=[
   {k:"sesameseeds",n:"Sesame seeds",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Grate 1 tablespoon of ginger and mince 2 cloves of garlic. Slice 2 scallions. Measure out 2 tablespoons cornstarch, 3 tablespoons soy sauce, 2 tablespoons mirin, 1\u00bd tablespoons maple syrup, and 1 teaspoon sesame seeds. Have your cooked rice and edamame ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Grate 1 tablespoon of ginger</li><li>Mince 2 cloves of garlic</li><li>Slice 2 scallions</li><li>Measure out 2 tablespoons cornstarch, 3 tablespoons soy sauce, 2 tablespoons mirin, 1\u00bd tablespoons maple syrup, and 1 teaspoon sesame seeds</li><li>Have your cooked rice and edamame ready</li></ul>"},
   {t:"Press the tofu fifteen minutes: wrap the block in a clean towel, set a heavy pan on top. Then cut into three-quarter inch cubes."},
   {t:"Toss the cubes with cornstarch until every side is dusted and no wet patches remain.",w:"Cornstarch is the difference between tofu that browns and tofu that steams. Do not skip it."},
   {t:"Whisk the soy sauce, mirin, maple syrup, ginger, garlic and sesame oil and set the bowl by the stove."},
@@ -507,7 +510,7 @@ var RECIPES=[
   {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Slice 1 large eggplant a half inch thick and slice 1 medium zucchini. Mince 2 cloves of garlic. Drain 1\u00bd cups of cannellini beans. Shred 3 ounces of mozzarella and grate 1 ounce of parmesan. Keep salt, pepper, and olive oil to hand."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Slice 1 large eggplant a half inch thick</li><li>Slice 1 medium zucchini</li><li>Mince 2 cloves of garlic</li><li>Drain 1\u00bd cups of cannellini beans</li><li>Shred 3 ounces of mozzarella</li><li>Grate 1 ounce of parmesan</li><li>Keep salt, pepper, and olive oil to hand</li></ul>"},
   {t:"Heat the oven to 400°F. Brush the eggplant and zucchini with oil, salt lightly, roast on a sheet pan twenty minutes, flipping once.",w:"Salting and pre-roasting drives off water. Skip it and the finished bake sits in a puddle."},
   {t:"Boil the pasta two minutes short of package time. It finishes in the oven."},
   {t:"Stir the ricotta with the egg, garlic, half the parmesan, salt and pepper until smooth."},
@@ -537,7 +540,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:0.75,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Cut 1 small head of cauliflower into florets and cut 1 red onion into wedges. Drain and pat very dry 3 cups of chickpeas. Grate 1 clove of garlic and crumble 2 ounces of feta. Zest and juice 1 lemon, keeping the two separate. Chop 3 tablespoons of mint. Measure out 2 teaspoons oregano, 1 teaspoon cumin, and three-quarters of a teaspoon of salt."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Cut 1 small head of cauliflower into florets</li><li>Cut 1 red onion into wedges</li><li>Drain and pat very dry 3 cups of chickpeas</li><li>Grate 1 clove of garlic</li><li>Crumble 2 ounces of feta</li><li>Zest and juice 1 lemon, keeping the two separate</li><li>Chop 3 tablespoons of mint</li><li>Measure out 2 teaspoons oregano, 1 teaspoon cumin, and three-quarters of a teaspoon of salt</li></ul>"},
   {t:"Heat the oven to 425°F <b>with the empty sheet pan inside</b>.",w:"Food hitting a hot pan starts browning immediately. Food on a cold pan releases water and steams. This one habit improves every sheet-pan meal you will ever make."},
   {t:"Toss the cauliflower, onion and chickpeas with two tablespoons of oil, the oregano, cumin, lemon zest, salt and pepper."},
   {t:"Spread on the hot pan in a single layer with room around everything. Roast twenty-five to thirty minutes, stirring once, until the cauliflower browns in places and the chickpeas crisp."},
@@ -569,7 +572,7 @@ var RECIPES=[
   {k:"neutraloil",n:"Neutral oil",q:1,u:"tbsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Cube 16 ounces of extra-firm tofu and drain 1\u00bd cups of chickpeas. Trim 3 cups of green beans. Slice 1 red bell pepper and 1 onion. Mince 3 cloves of garlic and grate 1 tablespoon of ginger. Juice 1 lime and chop a quarter cup of Thai basil or cilantro. Measure out 2 tablespoons mild yellow curry powder, 1 tablespoon soy sauce, and 1 teaspoon brown sugar. Have your cooked rice ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Cube 16 ounces of extra-firm tofu</li><li>Drain 1\u00bd cups of chickpeas</li><li>Trim 3 cups of green beans</li><li>Slice 1 red bell pepper</li><li>Slice 1 onion</li><li>Mince 3 cloves of garlic</li><li>Grate 1 tablespoon of ginger</li><li>Juice 1 lime</li><li>Chop a quarter cup of Thai basil or cilantro</li><li>Measure out 2 tablespoons mild yellow curry powder, 1 tablespoon soy sauce, and 1 teaspoon brown sugar</li><li>Have your cooked rice ready</li></ul>"},
   {t:"Heat the oil over medium-high and brown the tofu cubes about eight minutes, turning to get colour on at least two sides. Lift out to a plate."},
   {t:"Cook the onion and pepper in the same pan four minutes, then the garlic and ginger one more."},
   {t:"Add the curry powder and stir it in the oil thirty seconds.",w:"Light coconut milk has less fat to carry flavour, so blooming the spice in oil first matters more here than in a full-fat curry."},
@@ -600,7 +603,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1.25,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Finely dice 1 onion and dice 1 tomato. Mince 4 cloves of garlic and grate 1 tablespoon of ginger. Juice half a lemon and chop a quarter bunch of cilantro. Measure out 1\u00bd teaspoons turmeric, 2 teaspoons cumin, 2 teaspoons coriander, and 1\u00bc teaspoons salt. Have your cooked rice and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Finely dice 1 onion</li><li>Dice 1 tomato</li><li>Mince 4 cloves of garlic</li><li>Grate 1 tablespoon of ginger</li><li>Juice half a lemon</li><li>Chop a quarter bunch of cilantro</li><li>Measure out 1\u00bd teaspoons turmeric, 2 teaspoons cumin, 2 teaspoons coriander, and 1\u00bc teaspoons salt</li><li>Have your cooked rice and yogurt ready</li></ul>"},
   {t:"Rinse the lentils in a sieve until the water runs mostly clear. Put them in a pot with three cups of water, the turmeric and half a teaspoon of salt."},
   {t:"Bring to a boil, then drop to a low simmer with the lid ajar. Cook twenty minutes until they collapse completely. Skim the grey foam that rises in the first five minutes."},
   {t:"While that goes, make the tarka. Melt the butter in a small skillet over medium and cook the onion a full eight minutes until deeply golden.",w:"This is the flavour of the dish. Pale onions give you a thin, flat dal and no amount of spice later will fix it. Eight minutes, no shortcuts."},
@@ -619,10 +622,10 @@ var RECIPES=[
   {k:"bulgur",n:"Bulgur",q:0.75,u:"cup",e:"Dry, medium grind",g:"dry"},
   {k:"greenlentils",n:"Cooked green lentils",q:1.5,u:"cups",e:"From Sunday prep",g:"dry"},
   {k:"feta",n:"Feta",q:6,u:"oz",e:"In one slab, not crumbled",g:"dairy"},
-  {k:"roastedpeppers",n:"Roasted red peppers",q:1,u:"cup",e:"Jarred, sliced",g:"dry"},
+  {k:"redpeppers",n:"Red peppers",q:2,u:"",e:"To roast",g:"produce"},
   {k:"cherrytom",n:"Cherry tomatoes",q:1,u:"cup",e:"Halved",g:"produce"},
   {k:"redonion",n:"Red onion",q:0.25,u:"cup",e:"Sliced thin",g:"produce"},
-  {k:"parsley",n:"Flat-leaf parsley",q:0.5,u:"cup",e:"Roughly chopped",g:"produce"},
+  {k:"parsley",n:"Flat-leaf parsley",q:0.25,u:"cup",e:"Roughly chopped",g:"produce"},
   {k:"mint",n:"Fresh mint",q:3,u:"tbsp",e:"Torn",g:"produce"},
   {k:"yogurt",n:"Plain Greek yogurt",q:0.5,u:"cup",g:"dairy"},
   {k:"almonds",n:"Sliced almonds",q:2,u:"tbsp",e:"Toasted",g:"dry"},
@@ -633,7 +636,8 @@ var RECIPES=[
   {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Slice 1 cup of jarred roasted red peppers and halve 1 cup of cherry tomatoes. Slice a quarter cup of red onion thin. Roughly chop half a cup of parsley and tear 3 tablespoons of mint. Juice 1 lemon. Measure out 1\u00bd teaspoons sumac, 1 teaspoon oregano, and salt and pepper. Have your cooked lentils and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Halve 1 cup of cherry tomatoes</li><li>Slice a quarter cup of red onion thin</li><li>Roughly chop a quarter cup of parsley</li><li>Tear 3 tablespoons of mint</li><li>Juice 1 lemon</li><li>Measure out 1\u00bd teaspoons sumac, 1 teaspoon oregano, and salt and pepper</li><li>Have your cooked lentils and yogurt ready</li></ul>"},
+  {t:"<b>Roast the peppers first.</b> Halve and seed 2 red peppers and flatten them skin-side up on a foil-lined tray. Broil on high about 10 minutes, until the skins blacken and blister. Seal them in a bowl with a plate on top to steam, then peel off the skins and slice.",w:"Fresh-roasted peppers taste far deeper than jarred, and the trapped steam is what makes the charred skins slip off in sheets."},
   {t:"Heat the oven to 400\u00b0F. Put the feta slab in a small baking dish, drizzle with a tablespoon of oil, scatter the oregano over, and bake 20 minutes until it slumps and browns at the edges."},
   {t:"Pour 1\u00bd cups of boiling water over the bulgur with a pinch of salt. Cover and leave 20 minutes, then fluff with a fork.",w:"Bulgur is already parboiled, so it only needs to hydrate. Boiling it the way you would rice turns it to mush."},
   {t:"Whisk the lemon juice, remaining oil, sumac, salt and pepper together."},
@@ -664,7 +668,7 @@ var RECIPES=[
   {k:"sesameoil",n:"Toasted sesame oil",q:2,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Shred 3 cups of napa or green cabbage thin and julienne 1 large carrot. Cut 1 cup of cucumber into matchsticks. Slice 3 scallions, chop half a cup of cilantro, and crush 3 tablespoons of roasted peanuts. Grate 1 tablespoon of ginger and 2 cloves of garlic. Juice 1 lime. Measure out 3 tablespoons soy sauce, 2 tablespoons rice vinegar, 1 tablespoon maple syrup, and 2 teaspoons sesame oil. Have your thawed edamame ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Shred 3 cups of napa or green cabbage thin</li><li>Julienne 1 large carrot</li><li>Cut 1 cup of cucumber into matchsticks</li><li>Slice 3 scallions</li><li>Chop half a cup of cilantro</li><li>Crush 3 tablespoons of roasted peanuts</li><li>Grate 1 tablespoon of ginger</li><li>Grate 2 cloves of garlic</li><li>Juice 1 lime</li><li>Measure out 3 tablespoons soy sauce, 2 tablespoons rice vinegar, 1 tablespoon maple syrup, and 2 teaspoons sesame oil</li><li>Have your thawed edamame ready</li></ul>"},
   {t:"Cook the noodles to package time, drain, then rinse under cold running water until they are properly cold to the touch.",w:"Rice noodles keep cooking in their own residual heat and glue themselves into a brick. Cold water stops both problems at once."},
   {t:"Whisk the peanut butter, soy sauce, vinegar, maple syrup, ginger, garlic, sesame oil and lime juice with 4 tablespoons of hot water until it pours off the spoon in a ribbon.",w:"It will seize and look broken partway through. Keep adding hot water a tablespoon at a time and it comes back together."},
   {t:"Toss the cold noodles with the sauce first, so every strand is coated before anything bulky goes in."},
@@ -693,7 +697,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:0.75,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice half a yellow onion and mince 2 cloves of garlic. Shred 3 cups of green cabbage thin and crumble 3 ounces of queso fresco. Chop half a cup of cilantro and juice 2 limes. Drain 3 cups of pinto beans, saving the liquid. Measure out 2 teaspoons cumin, 1 teaspoon smoked paprika, and three-quarters teaspoon salt. Have your yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice half a yellow onion</li><li>Mince 2 cloves of garlic</li><li>Shred 3 cups of green cabbage thin</li><li>Crumble 3 ounces of queso fresco</li><li>Chop half a cup of cilantro</li><li>Juice 2 limes</li><li>Drain 3 cups of pinto beans, saving the liquid</li><li>Measure out 2 teaspoons cumin, 1 teaspoon smoked paprika, and three-quarters teaspoon salt</li><li>Have your yogurt ready</li></ul>"},
   {t:"Make the slaw first so it has time to soften: toss the cabbage with the juice of one lime and a good pinch of salt, then leave it alone."},
   {t:"Heat the oil over medium and cook the onion 5 minutes. Add the garlic for a minute, then the cumin and smoked paprika for 30 seconds."},
   {t:"Add the pintos with half a cup of their reserved liquid. Mash roughly half of them against the pan with a fork or masher and cook 5 minutes until thick and scoopable.",w:"Refried beans are just beans mashed in seasoned fat. The mashing is what makes them hold onto the tostada instead of rolling off it."},
@@ -722,7 +726,7 @@ var RECIPES=[
   {k:"salt",n:"Salt and pepper",q:null,u:"",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Mince 1 shallot and chop a quarter cup of dill. Dice 2 cups of cooked beets. Measure out 2 teaspoons Dijon, 2 tablespoons red wine vinegar, 1 teaspoon honey, and salt and pepper. Have your cooked farro and lentils ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Mince 1 shallot</li><li>Chop a quarter cup of dill</li><li>Dice 2 cups of cooked beets</li><li>Measure out 2 teaspoons Dijon, 2 tablespoons red wine vinegar, 1 teaspoon honey, and salt and pepper</li><li>Have your cooked farro and lentils ready</li></ul>"},
   {t:"Toast the walnuts in a dry pan over medium heat for about 4 minutes, until they smell nutty.",w:"Raw walnuts taste flat and faintly bitter. Four minutes in a dry pan changes them entirely, and it is the cheapest upgrade in this whole recipe."},
   {t:"Whisk the shallot, Dijon, vinegar, honey, salt and pepper, then stream in the oil."},
   {t:"Dress the beets on their own in a tablespoon of the vinaigrette and set them aside.",w:"Beets bleed. Dressing them separately is what keeps the farro from turning uniformly pink."},
@@ -750,7 +754,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice 1 yellow onion and slice 4 cloves of garlic. Stem and chop 1 large bunch of collard greens. Grate 1\u00bd ounces of parmesan and drain 3 cups of black-eyed peas. Measure out 2 teaspoons smoked paprika and 1 teaspoon salt."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice 1 yellow onion</li><li>Slice 4 cloves of garlic</li><li>Stem and chop 1 large bunch of collard greens</li><li>Grate 1\u00bd ounces of parmesan</li><li>Drain 3 cups of black-eyed peas</li><li>Measure out 2 teaspoons smoked paprika and 1 teaspoon salt</li></ul>"},
   {t:"Start the polenta. Bring 3 cups of water and a teaspoon of salt to a boil, then rain the polenta in slowly while whisking constantly. Drop the heat to its lowest setting and cook 20 to 25 minutes, stirring every few minutes.",w:"Dumping polenta into boiling water all at once makes lumps that never dissolve. Rain it in and keep whisking hard for the first full minute."},
   {t:"While it cooks, heat the oil in a wide pan and cook the onion 6 minutes. Add the garlic for a minute, then the smoked paprika for 30 seconds."},
   {t:"Add the collards in handfuls with the broth. Cover and cook 12 minutes until tender.",w:"Collards are much tougher than spinach and need real time. Undercooked they are leathery, and no amount of seasoning hides it."},
@@ -783,7 +787,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:0.5,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Slice 8 ounces of cremini mushrooms and 2 scallions. Julienne 1 large carrot and cut 1 cup of cucumber into matchsticks. Grate 3 cloves of garlic. Measure out 3 tablespoons rice vinegar, 1 tablespoon sugar, 3 tablespoons soy sauce, 2 teaspoons sesame oil, 1 teaspoon sesame seeds, and half a teaspoon salt. Have your cooked rice ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Slice 8 ounces of cremini mushrooms</li><li>Slice 2 scallions</li><li>Julienne 1 large carrot</li><li>Cut 1 cup of cucumber into matchsticks</li><li>Grate 3 cloves of garlic</li><li>Measure out 3 tablespoons rice vinegar, 1 tablespoon sugar, 3 tablespoons soy sauce, 2 teaspoons sesame oil, 1 teaspoon sesame seeds, and half a teaspoon salt</li><li>Have your cooked rice ready</li></ul>"},
   {t:"Quick pickle: stir the vinegar, sugar and a pinch of salt until dissolved, add the carrot and cucumber, and set aside for 15 minutes."},
   {t:"Get a pan properly hot with the neutral oil and add the mushrooms in one layer. Leave them mostly alone for 6 minutes until browned, then add a tablespoon of soy and a teaspoon of sesame oil. Remove.",w:"Mushrooms dump a lot of water before they brown. Stirring constantly keeps them sitting in it, and they stew instead of searing."},
   {t:"In the same pan, wilt the spinach with one clove of grated garlic, about a minute. Squeeze the excess liquid out, then dress with a teaspoon of sesame oil and a pinch of salt."},
@@ -820,7 +824,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice 1 onion, mince 4 cloves of garlic, and grate 1 tablespoon of ginger. Cube 3 cups of butternut squash and cut 2 carrots into thick chunks. Halve half a cup of dried apricots and drain 3 cups of butter beans. Chop half a cup of cilantro and toast half a cup of sliced almonds. Juice half a lemon. Measure out 1 teaspoon cinnamon, 2 teaspoons cumin, 2 teaspoons coriander, 1 teaspoon turmeric, and 1 teaspoon salt. Have your cooked barley and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice 1 onion</li><li>Mince 4 cloves of garlic</li><li>Grate 1 tablespoon of ginger</li><li>Cube 3 cups of butternut squash</li><li>Cut 2 carrots into thick chunks</li><li>Halve half a cup of dried apricots</li><li>Drain 3 cups of butter beans</li><li>Chop half a cup of cilantro</li><li>Toast half a cup of sliced almonds</li><li>Juice half a lemon</li><li>Measure out 1 teaspoon cinnamon, 2 teaspoons cumin, 2 teaspoons coriander, 1 teaspoon turmeric, and 1 teaspoon salt</li><li>Have your cooked barley and yogurt ready</li></ul>"},
   {t:"Heat the oil in a wide pot and cook the onion 7 minutes until soft and translucent."},
   {t:"Add the garlic and ginger for a minute, then the cinnamon, cumin, coriander and turmeric for 45 seconds.",w:"The cinnamon is what makes this taste Moroccan rather than generically stewed. It reads as warmth rather than as dessert, but only if it goes into the oil with the other spices."},
   {t:"Add the squash, carrot, crushed tomatoes, broth, apricots and salt. Simmer covered for 20 minutes until the squash gives easily to a knife."},
@@ -851,7 +855,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Cube 8 ounces of paneer. Finely dice 1 onion, mince 4 cloves of garlic, and grate 1 tablespoon of ginger. Juice half a lemon. Measure out 2 teaspoons cumin, 1 teaspoon coriander, three-quarters teaspoon turmeric, 1 teaspoon garam masala, and 1 teaspoon salt. Have your thawed spinach, cooked rice, and yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Cube 8 ounces of paneer</li><li>Finely dice 1 onion</li><li>Mince 4 cloves of garlic</li><li>Grate 1 tablespoon of ginger</li><li>Juice half a lemon</li><li>Measure out 2 teaspoons cumin, 1 teaspoon coriander, three-quarters teaspoon turmeric, 1 teaspoon garam masala, and 1 teaspoon salt</li><li>Have your thawed spinach, cooked rice, and yogurt ready</li></ul>"},
   {t:"Squeeze the thawed spinach hard in a clean kitchen towel until almost no more water comes out.",w:"This single step is the difference between saag and green soup. It will feel like you are removing too much. You are not."},
   {t:"Brown the paneer cubes in a tablespoon of the butter over medium-high heat, about 5 minutes, turning to colour two or three sides. Set aside.",w:"Paneer added raw stays squeaky and bland. Browning gives it a crust that holds its shape and its flavour in the sauce."},
   {t:"In the same pan, melt the rest of the butter and cook the onion a full 8 minutes until golden. Add the garlic and ginger for a minute, then the cumin, coriander and turmeric for 30 seconds."},
@@ -880,7 +884,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:1,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Dice 1 onion, 2 carrots, and 2 stalks of celery. Mince 3 cloves of garlic. Rinse 1 cup of split peas and grate 2 ounces of cheddar. Measure out 2 teaspoons smoked paprika, 1 teaspoon salt, and 1 tablespoon cider vinegar, and set out 2 bay leaves."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Dice 1 onion</li><li>Dice 2 carrots</li><li>Dice 2 stalks of celery</li><li>Mince 3 cloves of garlic</li><li>Rinse 1 cup of split peas</li><li>Grate 2 ounces of cheddar</li><li>Measure out 2 teaspoons smoked paprika, 1 teaspoon salt, and 1 tablespoon cider vinegar</li><li>Set out 2 bay leaves</li></ul>"},
   {t:"Heat the oil and cook the onion, carrot and celery together for 8 minutes until softened and sweet."},
   {t:"Add the garlic for a minute, then the smoked paprika for 30 seconds.",w:"The smoked paprika is standing in for the ham hock this soup usually leans on. It needs to hit hot oil to give up that flavour."},
   {t:"Add the split peas, broth, bay leaves and salt. Bring to a boil, then simmer partly covered for 45 to 55 minutes until the peas have collapsed completely.",w:"Split peas need no soaking but they do stick and scorch. Scrape the bottom of the pot every fifteen minutes or so."},
@@ -912,7 +916,7 @@ var RECIPES=[
   {k:"salt",n:"Salt",q:0.5,u:"tsp",g:"pantry",p:true}
  ],
  steps:[
-  {t:"<b>Prep first.</b> Cut 12 ounces of tempeh into slabs. Shred 4 cups of cabbage and 1 carrot, and slice a quarter of a red onion very thin. Measure out half a cup of ketchup, 5 tablespoons cider vinegar, 2 tablespoons molasses, 2 tablespoons soy sauce, 1 tablespoon Dijon, 2 teaspoons smoked paprika, 1 teaspoon garlic powder, 1 teaspoon onion powder, and half a teaspoon salt. Have your yogurt ready."},
+  {t:"<b>Prep first.</b><ul class='prep'><li>Cut 12 ounces of tempeh into slabs</li><li>Shred 4 cups of cabbage</li><li>Shred 1 carrot</li><li>Slice a quarter of a red onion very thin</li><li>Measure out half a cup of ketchup, 5 tablespoons cider vinegar, 2 tablespoons molasses, 2 tablespoons soy sauce, 1 tablespoon Dijon, 2 teaspoons smoked paprika, 1 teaspoon garlic powder, 1 teaspoon onion powder, and half a teaspoon salt</li><li>Have your yogurt ready</li></ul>"},
   {t:"Steam the tempeh first: simmer the slabs in an inch of water for 10 minutes, then drain and pat dry.",w:"Tempeh carries a bitter edge straight from the package. Ten minutes of steam removes it and opens the tempeh up so it actually absorbs the sauce instead of wearing it."},
   {t:"Whisk the ketchup, 3 tablespoons of the vinegar, molasses, soy sauce, Dijon, smoked paprika, garlic powder and onion powder into a barbecue sauce."},
   {t:"Make the slaw: cabbage, carrot and red onion tossed with the remaining 2 tablespoons of vinegar, the yogurt and the salt. Set aside so it softens."},
@@ -1292,7 +1296,7 @@ function openRecipe(id){
     var ps=$("recipe-body").querySelectorAll(".rpanel");
     for(var p=0;p<ps.length;p++){ if(ps[p].getAttribute("data-panel")===t) ps[p].removeAttribute("hidden"); else ps[p].setAttribute("hidden",""); }
   });
-  var li=$("recipe-body").querySelectorAll(".steps li");
+  var li=$("recipe-body").querySelectorAll(".steps>li");
   for(var j=0;j<li.length;j++) li[j].addEventListener("click",function(){
     var s=this.getAttribute("data-s");
     if(!stepsDone[id]) stepsDone[id]={};
